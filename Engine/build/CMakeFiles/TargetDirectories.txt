@@ -1,0 +1,3 @@
+C:/Users/Utilizador/Desktop/CompGrafica/Trabalho/Engine/build/CMakeFiles/engine.dir
+C:/Users/Utilizador/Desktop/CompGrafica/Trabalho/Engine/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Utilizador/Desktop/CompGrafica/Trabalho/Engine/build/CMakeFiles/ZERO_CHECK.dir

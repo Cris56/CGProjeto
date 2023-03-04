@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Utilizador\Desktop\CompGrafica\Trabalho\Engine\engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pugixml.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Utilizador\Desktop\CompGrafica\Trabalho\Engine\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A7772523-651F-3E33-9C0A-C50F1D1FAD26}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\pugiconfig.hpp" />
+    <ClInclude Include="..\pugixml.hpp" />
+  </ItemGroup>
+</Project>
