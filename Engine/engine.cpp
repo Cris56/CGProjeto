@@ -10,6 +10,10 @@
 
 #include "pugixml.hpp"
 
+#include <iostream>
+#include <fstream>
+using namespace std;
+
 int wwidth = 800;
 int wheight = 800;
 
@@ -17,6 +21,27 @@ float campos[3] = { 0.0f,0.0f,5.0f };
 float camlook[3] = { 0.0f,0.0f,-1.0f };
 float camup[3] = { 0.0f,1.0f,0.0f };
 float camproj[3] = { 45.0f,1.0f,1000.0f };
+
+char *modelo;
+
+void ler3D(char* file, char* buf) {
+	char c;
+	streampos size;
+	ifstream fd(file,ios::ate);
+	if (fd.is_open()) {
+		size = fd.tellg();
+		modelo = new char[size];
+		fd.seekg(0, ios::beg);
+		fd.read(modelo, size);
+		fd.close();
+	}
+	else printf("Error opening file");
+}
+
+void lerXML(char* file) {
+
+	ler3D("sphere.3d", modelo);
+}
 
 void changeSize(int w, int h) {
 	// prevent a divide by zero, when window is too short
@@ -39,7 +64,6 @@ void changeSize(int w, int h) {
 	glViewport(0, 0, w, h);
 }
 
-
 void renderScene(void) {
 	// clear buffers
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -58,6 +82,7 @@ void renderScene(void) {
 }
 
 int main(int argc, char** argv) {
+	lerXML("teste_1_3.xml");
 	// GLUT init
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
