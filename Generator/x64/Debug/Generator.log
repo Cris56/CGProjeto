@@ -1,0 +1,5 @@
+﻿  generator.cpp
+C:\Users\Utilizador\Desktop\CompGrafica\Trabalho\Generator\generator.cpp(8,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Utilizador\Desktop\CompGrafica\Trabalho\Generator\generator.cpp(52,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Utilizador\Desktop\CompGrafica\Trabalho\Generator\generator.cpp(55,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generator.vcxproj -> C:\Users\Utilizador\Desktop\CompGrafica\Trabalho\Generator\x64\Debug\generator.exe
