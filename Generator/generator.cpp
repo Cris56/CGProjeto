@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
                 int numv = a2 * (a3 + 1);
                 float *vertices = (float*) malloc(sizeof(float)*3*numv);
                 genSphere(a1, a2, a3, vertices);
-                fich << numv << "\n";
+                fich << "sphere" << "\n";
                 for (int i = 0; i < numv * 3; i++) {
                     if (i % 3 == 0) fich << "\n";
                     fich << vertices[i] << " ";
