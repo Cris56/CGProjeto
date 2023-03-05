@@ -37,11 +37,11 @@ int main(int argc, char** argv) {
     else if (!strcmp(obj.c_str(), "cone") && argc == 7) {
         const int a3 = atoi(argv[4]);
         const int a4 = atoi(argv[5]);
-        vertices.resize(a4 * 3);
+        vertices.resize((a3 * a4 + a3) * 3);
         genCone(a1, a2, a3, a4, vertices.data());
     }
     else if (!strcmp(obj.c_str(), "plane") && argc == 5) {
-        vertices.resize(12);
+        vertices.resize((a2 + 1) * (a2 + 1) * 3);
         genPlane(a1, a2, vertices.data());
     }
     else {
