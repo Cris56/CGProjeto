@@ -5,3 +5,5 @@ using namespace std;
 #include <math.h>
 
 void genSphere(float radius, int slices, int stacks, float *v);
+void genPlane(float x, float z, float *v);
+

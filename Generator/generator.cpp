@@ -1,10 +1,11 @@
 #include "generator.h"
+#include "plane.hpp"
 
 int main(int argc, char** argv) {
     if (argc < 5 || argc > 7) printf("Invalid number of arguments.\n");
     else {
         // Argumentos comuns a todos
-        char* obj = argv[1];
+        std::string obj = argv[1];
         float a1 = atof(argv[2]);
         int a2 = atoi(argv[3]);
         char* fd = argv[argc - 1];
@@ -12,7 +13,7 @@ int main(int argc, char** argv) {
         ofstream fich(fd);
         
         if (fich.is_open()) {
-            if ( argc == 6) { //strcmp(obj, "sphere") &&
+            if (!obj.compare("sphere") && argc == 6) {
                 int a3 = atoi(argv[4]);
                 int numv = a2 * (a3 + 1);
                 float *vertices = (float*) malloc(sizeof(float)*3*numv);
@@ -23,15 +24,21 @@ int main(int argc, char** argv) {
                     fich << vertices[i] << " ";
                 }
             }
-            else if (obj == "box" && argc == 5) {
+            else if (!obj.compare("box") && argc == 5) {
 
             }
-            else if (obj == "cone" && argc == 7) {
+            else if (!obj.compare("cone") && argc == 7) {
                 int a3 = atoi(argv[4]);
                 int a4 = atoi(argv[5]);
             }
-            else if (obj == "plane" && argc == 5) {
-
+            else if (!obj.compare("plane") && argc == 5) {
+                float *vertices = (float*) malloc(sizeof(float)*3*4);
+                genPlane(a1, a2, vertices);
+                fich << 4 << "\n";
+                for (int i = 0; i < 4 * 3; i++) {
+                    if (i % 3 == 0) fich << "\n";
+                    fich << vertices[i] << " ";
+                }
             }
             else printf("Invalid object or corresponding parameters.\n");
         }
@@ -69,3 +76,5 @@ void genSphere(float radius, int slices, int stacks, float *v) {
         }
     }
 }
+
+
