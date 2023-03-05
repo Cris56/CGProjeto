@@ -1,80 +1,60 @@
 #include "generator.h"
-#include "plane.hpp"
+
+void save_vertices_to_file(const char* filename, const vector<float>& vertices) {
+    ofstream outfile(filename);
+    if (!outfile) {
+        throw runtime_error("Error opening file");
+    }
+
+    outfile << vertices.size() / 3 << '\n';
+    for (size_t i = 0; i < vertices.size(); i += 3) {
+        outfile << vertices[i] << ' ' << vertices[i+1] << ' ' << vertices[i+2] << '\n';
+    }
+}
 
 int main(int argc, char** argv) {
-    if (argc < 5 || argc > 7) printf("Invalid number of arguments.\n");
-    else {
-        // Argumentos comuns a todos
-        std::string obj = argv[1];
-        float a1 = atof(argv[2]);
-        int a2 = atoi(argv[3]);
-        char* fd = argv[argc - 1];
-        // Abrir ficheiro
-        ofstream fich(fd);
-        
-        if (fich.is_open()) {
-            if (!obj.compare("sphere") && argc == 6) {
-                int a3 = atoi(argv[4]);
-                int numv = a2 * (a3 + 1);
-                float *vertices = (float*) malloc(sizeof(float)*3*numv);
-                genSphere(a1, a2, a3, vertices);
-                fich << numv << "\n";
-                for (int i = 0; i < numv * 3; i++) {
-                    if (i % 3 == 0) fich << "\n";
-                    fich << vertices[i] << " ";
-                }
-            }
-            else if (!obj.compare("box") && argc == 5) {
-
-            }
-            else if (!obj.compare("cone") && argc == 7) {
-                int a3 = atoi(argv[4]);
-                int a4 = atoi(argv[5]);
-            }
-            else if (!obj.compare("plane") && argc == 5) {
-                float *vertices = (float*) malloc(sizeof(float)*3*4);
-                genPlane(a1, a2, vertices);
-                fich << 4 << "\n";
-                for (int i = 0; i < 4 * 3; i++) {
-                    if (i % 3 == 0) fich << "\n";
-                    fich << vertices[i] << " ";
-                }
-            }
-            else printf("Invalid object or corresponding parameters.\n");
-        }
-        else printf("Error opening file");
-
-        // Fechar ficheiro
-        fich.close();
+    if (argc < 5 || argc > 7) {
+        throw invalid_argument("Invalid number of arguments");
     }
+
+    const string obj = argv[1];
+    const float a1 = atof(argv[2]);
+    const int a2 = atoi(argv[3]);
+    const char* fd = argv[argc - 1];
+
+    vector<float> vertices;
+
+    if (!strcmp(obj.c_str(), "sphere") && argc == 6) {
+        const int a3 = atoi(argv[4]);
+        const int numv = a2 * (a3 + 1);
+        vertices.resize(numv * 3);
+        genSphere(a1, a2, a3, vertices.data());
+    }
+    else if (!strcmp(obj.c_str(), "box") && argc == 5) {
+        vertices.resize(24);
+        genBox(a1, a2, vertices.data());
+    }
+    else if (!strcmp(obj.c_str(), "cone") && argc == 7) {
+        const int a3 = atoi(argv[4]);
+        const int a4 = atoi(argv[5]);
+        vertices.resize(a4 * 3);
+        genCone(a1, a2, a3, a4, vertices.data());
+    }
+    else if (!strcmp(obj.c_str(), "plane") && argc == 5) {
+        vertices.resize(12);
+        genPlane(a1, a2, vertices.data());
+    }
+    else {
+        throw invalid_argument("Invalid object or corresponding parameters.");
+    }
+
+    try {
+        save_vertices_to_file(fd, vertices);
+    }
+    catch (const exception& e) {
+        cerr << e.what() << endl;
+        return 1;
+    }
+
     return 0;
 }
-
-void genSphere(float radius, int slices, int stacks, float *v) {
-    int n = slices;
-    int m = stacks;
-
-
-    for (int i = 0; i < (m+1); i++) {
-        float av = (M_PI/2) - i * (M_PI / m);
-        float y = radius * sin(av);
-        for (int j = 0; j < n; j++) {
-            float ah = j * (2 * M_PI / n);
-            float x = radius * sin(ah) * cos(av);
-            float z = radius * cos(ah) * cos(av);
-
-            if (y == radius || y == -radius) {
-                v[(3 * n * i) + (3 * j)] = 0.0;
-                v[(3 * n * i) + (3 * j) + 1] = y;
-                v[(3 * n * i) + (3 * j) + 2] = 0.0;
-            }
-            else {
-                v[(3 * n * i) + (3 * j)] = x;
-                v[(3 * n * i) + (3 * j) + 1] = y;
-                v[(3 * n * i) + (3 * j) + 2] = z;
-            }
-        }
-    }
-}
-
-
