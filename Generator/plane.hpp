@@ -1,1 +1,1 @@
-void plane(const char* name, float x, float z);
+void genPlane(float x, float z, float *v);
