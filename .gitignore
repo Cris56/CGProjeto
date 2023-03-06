@@ -3,6 +3,7 @@ X64/
 xcuserdata/
 generator.sln
 generator.vcxproj.user
+.DS_Store
 
 # Prerequisites
 *.d
