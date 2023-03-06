@@ -5,7 +5,7 @@ void save_vertices_to_file(const char* filename, const vector<float>& vertices) 
     if (!outfile) {
         throw runtime_error("Error opening file");
     }
-
+    
     outfile << vertices.size() / 3 << '\n';
     for (size_t i = 0; i < vertices.size(); i += 3) {
         outfile << vertices[i] << ' ' << vertices[i+1] << ' ' << vertices[i+2] << '\n';
