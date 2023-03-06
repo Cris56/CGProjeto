@@ -1,7 +1,17 @@
+#include <math.h>
+#include "plane.hpp"
+#include "box.hpp"
+#include "cone.hpp"
+#include "sphere.hpp"
+
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
+#include <cstring>
+#include <cstdlib>
+#include <vector>
+
 using namespace std;
 #define _USE_MATH_DEFINES
-#include <math.h>
 
-void genSphere(float radius, int slices, int stacks, float *v);
+
