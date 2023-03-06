@@ -1,3 +1,0 @@
-﻿  engine.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\stdlib.h(56,48): error C2381: 'exit': redefinition; 'noreturn' differs
-C:\Users\Utilizador\Desktop\CompGrafica\toolkits\glut\GL/glut.h(146,29): message : see declaration of 'exit'
