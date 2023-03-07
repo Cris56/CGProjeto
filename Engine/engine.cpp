@@ -1,5 +1,4 @@
 #include "engine.hpp"
-#include <unistd.h>
 
 int window_w = 800;
 int window_h = 800;
