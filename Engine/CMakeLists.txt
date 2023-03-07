@@ -8,6 +8,10 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_executable(${PROJECT_NAME} engine.cpp)
 
+add_library(pugi STATIC pugixml.cpp)
+target_include_directories(pugi PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(${PROJECT_NAME} pugi)
+
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
 link_directories(${OpenGL_LIBRARY_DIRS})
@@ -44,18 +48,12 @@ else (WIN32) #Linux and Mac
 	include_directories(${GLUT_INCLUDE_DIR})
 	link_directories(${GLUT_LIBRARY_DIRS})
 	add_definitions(${GLUT_DEFINITIONS})
-	
-	target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
+
+	target_link_libraries(${PROJECT_NAME} "-F${CMAKE_OSX_SYSROOT}/System/Library/Frameworks" "-framework GLUT")
+	target_link_libraries(${PROJECT_NAME} "-F${CMAKE_OSX_SYSROOT}/System/Library/Frameworks" "-framework OpenGL")
+
 	if(NOT GLUT_FOUND)
 	   message(ERROR ": GLUT not found!")
 	endif(NOT GLUT_FOUND)
 	
 endif(WIN32)
-
-
-
-
-
-
-
-
