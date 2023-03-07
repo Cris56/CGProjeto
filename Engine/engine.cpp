@@ -105,17 +105,6 @@ int main(int argc, char** argv) {
     char str[] = "../data/teste.xml";
     
     WorldInfo world_info = lerXML(str);
-
-    std::cout << "Window width: " << world_info.window_w << "\nWindow height: " << world_info.window_h << "\n\n";
-    std::cout << "Position: " << world_info.campos[0] << " " << world_info.campos[1] << " " << world_info.campos[2] << "\n";
-    std::cout << "LookAt: " << world_info.camlook[0] << " " << world_info.camlook[1] << " " << world_info.camlook[2] << "\n";
-    std::cout << "Up: " << world_info.camup[0] << " " << world_info.camup[1] << " " << world_info.camup[2] << "\n";
-    std::cout << "Projection: " << world_info.camproj[0] << " " << world_info.camproj[1] << " " << world_info.camproj[2] << "\n\n";
-
-    std::cout << "Models:\n";
-    for (const auto& model : world_info.models) {
-        std::cout << model << "\n";
-    }
     
     printWorldInfo(world_info);
     
