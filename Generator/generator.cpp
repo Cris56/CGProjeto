@@ -26,8 +26,8 @@ int main(int argc, char** argv) {
 
     if (!strcmp(obj.c_str(), "sphere") && argc == 6) {
         const int a3 = atoi(argv[4]);
-        const int numv = a2 * (a3 + 1);
-        vertices.resize(numv * 3);
+        const int numvt = 6* a2 * a3;
+        vertices.resize(numvt * 3);
         genSphere(a1, a2, a3, vertices.data());
     }
     else if (!strcmp(obj.c_str(), "box") && argc == 5) {

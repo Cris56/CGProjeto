@@ -1,4 +1,6 @@
+#define _USE_MATH_DEFINES
 #include <math.h>
+
 #include "plane.hpp"
 #include "box.hpp"
 #include "cone.hpp"
@@ -12,6 +14,5 @@
 #include <vector>
 
 using namespace std;
-#define _USE_MATH_DEFINES
 
 
