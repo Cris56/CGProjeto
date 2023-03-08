@@ -1,14 +1,7 @@
 #include "engine.hpp"
 
-int window_w = 800;
-int window_h = 800;
-
-float campos[3];
-float camlook[3];
-float camup[3];
-float camproj[3];
-
-vector<string> ms;
+WorldInfo world_info;
+int nummodelos = 0;
 
 void printWorldInfo(const WorldInfo& world_info) {
     std::cout << "Window width: " << world_info.window_w << "\nWindow height: " << world_info.window_h << "\n\n";
@@ -20,6 +13,7 @@ void printWorldInfo(const WorldInfo& world_info) {
     std::cout << "Models:\n";
     for (const auto& model : world_info.models) {
         std::cout << model << "\n";
+		nummodelos++;
     }
 }
 
@@ -62,6 +56,40 @@ WorldInfo lerXML(char* file) {
     return world_info;
 }
 
+void drawModels() {
+	glPolygonMode(GL_FRONT, GL_LINE);
+	glBegin(GL_TRIANGLES);
+	for (int a = 0; a < nummodelos; a++) {
+		string model = world_info.models[a];
+		ifstream modelfile(model);
+		if (!modelfile) {
+			throw runtime_error("Error opening file");
+		}
+		string m;
+		getline(modelfile, m);
+		int numvt = 3 * atoi(m.data());
+		float * v = (float*) malloc(sizeof(float)*numvt*3);
+		int i = 0;
+		while (getline(modelfile, m)) {
+			istringstream in(m);
+			float x, y, z;
+			in >> x >> y >> z;
+			v[i] = x;
+			v[i + 1] = y;
+			v[i + 2] = z;
+			i += 3;
+			in.clear();
+		}
+		modelfile.close();
+		for (int i = 0; i < numvt; i += 3) {
+			glVertex3f(v[i], v[i + 1], v[i + 2]);
+		}
+		modelfile.clear();
+		free(v);
+	}
+	glEnd();
+}
+
 void changeSize(int w, int h) {
 	// prevent a divide by zero, when window is too short
 	// (you can not make a window with zero width).
@@ -75,7 +103,7 @@ void changeSize(int w, int h) {
 	// load the identity matrix
 	glLoadIdentity();
 	// set the perspective
-	gluPerspective(camproj[0], ratio, camproj[1], camproj[2]);
+	gluPerspective(world_info.camproj[0], ratio, world_info.camproj[1], world_info.camproj[2]);
 	// return to the model view matrix mode
 	glMatrixMode(GL_MODELVIEW);
 
@@ -89,29 +117,30 @@ void renderScene(void) {
 
 	// set camera
 	glLoadIdentity();
-	gluLookAt(campos[0], campos[1], campos[2],
-		camlook[0], camlook[1], camlook[2],
-		camup[0], camup[1], camup[2]);
+	gluLookAt(world_info.campos[0], world_info.campos[1], world_info.campos[2],
+		world_info.camlook[0], world_info.camlook[1], world_info.camlook[2],
+		world_info.camup[0], world_info.camup[1], world_info.camup[2]);
 
 	// drawing instructions
-	glutWireTeapot(1);
+	drawModels();
 
 	// end of frame
 	glutSwapBuffers();
 }
 
 int main(int argc, char** argv) {
-    char str[] = "../data/teste.xml";
+    char str[] = "../data/test_1_5.xml";
     
-    WorldInfo world_info = lerXML(str);
+    world_info = lerXML(str);
     
     printWorldInfo(world_info);
+	
     
 	// GLUT init
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(window_w, window_h);
+	glutInitWindowSize(world_info.window_w, world_info.window_h);
 	glutCreateWindow("CG@DI-UM");
 
 	// callback registry

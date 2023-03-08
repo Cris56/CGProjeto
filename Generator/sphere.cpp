@@ -1,5 +1,4 @@
 #include "sphere.hpp"
-struct ponto { float ponto[3]; };
 vector<ponto> vSphere;
 
 void genSphere(float radius, int slices, int stacks, float *v) {
