@@ -8,5 +8,7 @@
 #include <vector>
 using namespace std;
 
+struct ponto { float ponto[3]; };
+
 void genSphere(float radius, int slices, int stacks, float *v);
 void verticesSphere(float radius, int slices, int stacks);
