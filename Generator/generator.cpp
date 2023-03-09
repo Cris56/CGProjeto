@@ -1,7 +1,7 @@
 #include "generator.h"
 
 void save_vertices_to_file(const char* filename, const vector<float>& vertices) {
-    string filepath = "../data/" + string(filename);
+    string filepath = "../../data/" + string(filename);
     ofstream outfile(filepath);
     if (!outfile) {
         throw runtime_error("Error opening file");
