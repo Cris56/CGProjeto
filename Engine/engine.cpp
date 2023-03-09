@@ -61,7 +61,8 @@ void drawModels() {
 	glBegin(GL_TRIANGLES);
 	for (int a = 0; a < nummodelos; a++) {
 		string model = world_info.models[a];
-		ifstream modelfile(model);
+        string filepath = "../../data/" + model;
+		ifstream modelfile(filepath);
 		if (!modelfile) {
 			throw runtime_error("Error opening file");
 		}
@@ -129,7 +130,7 @@ void renderScene(void) {
 }
 
 int main(int argc, char** argv) {
-    char str[] = "../data/test_1_5.xml";
+    char str[] = "../../data/teste.xml";
     
     world_info = lerXML(str);
     
