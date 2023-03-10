@@ -4,16 +4,23 @@ void save_vertices_to_file(const char* filename, const vector<float>& vertices) 
     string filepath = "../../data/" + string(filename);
     ofstream outfile(filepath);
     if (!outfile) {
-        throw runtime_error("Error opening file");
+        throw runtime_error("Error opening file: " + filepath);
     }
     
     outfile << vertices.size() / 3 << '\n';
     for (size_t i = 0; i < vertices.size(); i += 3) {
-        outfile << vertices[i] << ' ' << vertices[i+1] << ' ' << vertices[i+2] << '\n';
+        outfile << vertices[i] << ' ' << vertices[i + 1] << ' ' << vertices[i + 2] << '\n';
     }
+
+    if (outfile.fail()) {
+        throw runtime_error("Error writing to file: " + filepath);
+    }
+
+    outfile.close();
 }
 
 int main(int argc, char** argv) {
+    try {
     if (argc < 5 || argc > 7) {
         throw invalid_argument("Invalid number of arguments");
     }
@@ -49,11 +56,19 @@ int main(int argc, char** argv) {
         throw invalid_argument("Invalid object or corresponding parameters.");
     }
 
-    try {
         save_vertices_to_file(fd, vertices);
     }
+    catch (const invalid_argument& e) {
+        cerr << "Error: " << e.what() << endl;
+        cerr << "Usage: " << argv[0] << " [sphere|box|cone|plane] arg1 arg2 [arg3 arg4] outputfile" << endl;
+        return 1;
+    }
+    catch (const runtime_error& e) {
+        cerr << "Error: " << e.what() << endl;
+        return 1;
+    }
     catch (const exception& e) {
-        cerr << e.what() << endl;
+        cerr << "Error: " << e.what() << endl;
         return 1;
     }
 
