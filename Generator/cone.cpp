@@ -6,10 +6,10 @@ void genCone(float coneRadius, float coneHeight, int numSlices, int numStacks, f
         throw std::invalid_argument("Invalid input parameters for genCone function.");
     }
 
-    vector<triangle> coneTrianglesCombined;
+    vector<Triangle> coneTrianglesCombined;
 
-    vector<triangle> coneBaseTriangles = genConeBase(coneRadius, numSlices, numStacks);
-    vector<triangle> coneBodyTriangles = genConeBody(coneRadius, coneHeight, numSlices, numStacks);
+    vector<Triangle> coneBaseTriangles = genConeBase(coneRadius, numSlices, numStacks);
+    vector<Triangle> coneBodyTriangles = genConeBody(coneRadius, coneHeight, numSlices, numStacks);
 
     coneTrianglesCombined.reserve(coneBaseTriangles.size() + coneBodyTriangles.size());
     coneTrianglesCombined.insert(coneTrianglesCombined.end(), coneBaseTriangles.begin(), coneBaseTriangles.end());
@@ -18,59 +18,59 @@ void genCone(float coneRadius, float coneHeight, int numSlices, int numStacks, f
     int numVCombined = coneTrianglesCombined.size() * 3;
 
     for (int i = 0, j = 0; j < numVCombined * 3; i++, j += 9) {
-        v[j] =     coneTrianglesCombined[i].p1.ponto[0];
-        v[j + 1] = coneTrianglesCombined[i].p1.ponto[1];
-        v[j + 2] = coneTrianglesCombined[i].p1.ponto[2];
+        v[j] =     coneTrianglesCombined[i].vertex1.x;
+        v[j + 1] = coneTrianglesCombined[i].vertex1.y;
+        v[j + 2] = coneTrianglesCombined[i].vertex1.z;
 
-        v[j + 3] = coneTrianglesCombined[i].p2.ponto[0];
-        v[j + 4] = coneTrianglesCombined[i].p2.ponto[1];
-        v[j + 5] = coneTrianglesCombined[i].p2.ponto[2];
+        v[j + 3] = coneTrianglesCombined[i].vertex2.x;
+        v[j + 4] = coneTrianglesCombined[i].vertex2.y;
+        v[j + 5] = coneTrianglesCombined[i].vertex2.z;
 
-        v[j + 6] = coneTrianglesCombined[i].p3.ponto[0];
-        v[j + 7] = coneTrianglesCombined[i].p3.ponto[1];
-        v[j + 8] = coneTrianglesCombined[i].p3.ponto[2];
+        v[j + 6] = coneTrianglesCombined[i].vertex3.x;
+        v[j + 7] = coneTrianglesCombined[i].vertex3.y;
+        v[j + 8] = coneTrianglesCombined[i].vertex3.z;
     }
     return;
 }
 
-vector<triangle> genConeBase(float coneRadius, int numSlices, int numStacks) {
+vector<Triangle> genConeBase(float coneRadius, int numSlices, int numStacks) {
 
     // angleBetweenSlices representa o ângulo entre slices
     float angleBetweenSlices = 2 * M_PI / (float)numSlices;
 
-    vector<triangle> triangles;
+    vector<Triangle> triangles;
 
     for (int i = 0; i <= numSlices; i++) {
         float deltaAngle = i * angleBetweenSlices;
 
-        ponto point1;
-        point1.ponto[0] = 0.0f;
-        point1.ponto[1] = 0.0f;
-        point1.ponto[2] = 0.0f;
+        Point point1;
+        point1.x = 0.0f;
+        point1.y = 0.0f;
+        point1.z = 0.0f;
 
-        ponto point2;
-        point2.ponto[0] = sin(deltaAngle) * coneRadius;
-        point2.ponto[1] = 0.0f;
-        point2.ponto[2] = cos(deltaAngle) * coneRadius;
+        Point point2;
+        point2.x = sin(deltaAngle) * coneRadius;
+        point2.y = 0.0f;
+        point2.z = cos(deltaAngle) * coneRadius;
 
-        ponto point3;
-        point3.ponto[0] = sin(deltaAngle + angleBetweenSlices) * coneRadius;
-        point3.ponto[1] = 0.0f;
-        point3.ponto[2] = cos(deltaAngle + angleBetweenSlices) * coneRadius;
+        Point point3;
+        point3.x = sin(deltaAngle + angleBetweenSlices) * coneRadius;
+        point3.y = 0.0f;
+        point3.z = cos(deltaAngle + angleBetweenSlices) * coneRadius;
 
-        triangle triangle;
-        triangle.p1 = point3;
-        triangle.p2 = point2;
-        triangle.p3 = point1;
+        Triangle triangle;
+        triangle.vertex1 = point3;
+        triangle.vertex2 = point2;
+        triangle.vertex3 = point1;
         triangles.push_back(triangle);
     }
 
     return triangles;
 }
 
-vector<triangle> genConeBody(float radius, float height, int slices, int stacks) {
+vector<Triangle> genConeBody(float radius, float height, int slices, int stacks) {
 
-    vector<triangle> triangles;
+    vector<Triangle> triangles;
 
     // alpha representa o ângulo entre slices
     float angleBetweenSlices = 2 * M_PI / (float)slices;
@@ -92,36 +92,36 @@ vector<triangle> genConeBody(float radius, float height, int slices, int stacks)
 
             float deltaAngle = i * angleBetweenSlices;
 
-            ponto point1;
-            point1.ponto[0] = bottomRadius * sin(deltaAngle);
-            point1.ponto[1] = bottomHeight;
-            point1.ponto[2] = bottomRadius * cos(deltaAngle);
+            Point point1;
+            point1.x = bottomRadius * sin(deltaAngle);
+            point1.y = bottomHeight;
+            point1.z = bottomRadius * cos(deltaAngle);
 
-            ponto point2;
-            point2.ponto[0] = topRadius * sin(deltaAngle + angleBetweenSlices);
-            point2.ponto[1] = topHeight;
-            point2.ponto[2] = topRadius * cos(deltaAngle + angleBetweenSlices);
+            Point point2;
+            point2.x = topRadius * sin(deltaAngle + angleBetweenSlices);
+            point2.y = topHeight;
+            point2.z = topRadius * cos(deltaAngle + angleBetweenSlices);
 
-            ponto point3;
-            point3.ponto[0] = topRadius * sin(deltaAngle);
-            point3.ponto[1] = topHeight;
-            point3.ponto[2] = topRadius * cos(deltaAngle);
+            Point point3;
+            point3.x = topRadius * sin(deltaAngle);
+            point3.y = topHeight;
+            point3.z = topRadius * cos(deltaAngle);
 
-            ponto point4;
-            point4.ponto[0] = bottomRadius * sin(deltaAngle + angleBetweenSlices);
-            point4.ponto[1] = bottomHeight;
-            point4.ponto[2] = bottomRadius * cos(deltaAngle + angleBetweenSlices);
+            Point point4;
+            point4.x = bottomRadius * sin(deltaAngle + angleBetweenSlices);
+            point4.y = bottomHeight;
+            point4.z = bottomRadius * cos(deltaAngle + angleBetweenSlices);
 
-            triangle triangle1;
-            triangle1.p1 = point1;
-            triangle1.p2 = point2;
-            triangle1.p3 = point3;
+            Triangle triangle1;
+            triangle1.vertex1 = point1;
+            triangle1.vertex2 = point2;
+            triangle1.vertex3 = point3;
             triangles.push_back(triangle1);
 
-            triangle triangle2;
-            triangle2.p1 = point1;
-            triangle2.p2 = point4;
-            triangle2.p3 = point2;
+            Triangle triangle2;
+            triangle2.vertex1 = point1;
+            triangle2.vertex2 = point4;
+            triangle2.vertex3 = point2;
             triangles.push_back(triangle2);
         }
     }

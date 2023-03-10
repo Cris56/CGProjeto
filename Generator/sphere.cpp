@@ -1,71 +1,66 @@
 #include "sphere.hpp"
 
-vector<ponto> vSphere;
+vector<Point> vSphere;
 
-void genSphere(float radius, int slices, int stacks, float *v) {
-    int n = slices;
-    int m = stacks;
+void genSphere(float radius, int numSlices, int numStacks, float* v) {
 
-    const int numv = n * (m + 1);
+    const int numv = numSlices * (numStacks + 1);
     vSphere.resize(numv);
-    verticesSphere(radius, n, m);
+    verticesSphere(radius, numSlices, numStacks);
 
     int j = 0;
-    for (int i = 0; i < numv-n; i++) {
+    for (int i = 0; i < numv - numSlices; i++) {
         int ex = 0;
-        if ((i + 1) % n == 0 && i > 0) {
-            ex = m;
+        if ((i + 1) % numSlices == 0 && i > 0) {
+            ex = numStacks;
         }
-        v[j] = vSphere[i].ponto[0];
-        v[j + 1] = vSphere[i].ponto[1];
-        v[j + 2] = vSphere[i].ponto[2];
+
+        v[j]     = vSphere[i].x;
+        v[j + 1] = vSphere[i].y;
+        v[j + 2] = vSphere[i].z;
         j += 3;
-        v[j] = vSphere[i - ex + n + 1].ponto[0];
-        v[j + 1] = vSphere[i - ex + n + 1].ponto[1];
-        v[j + 2] = vSphere[i - ex + n + 1].ponto[2];
+
+        v[j]     = vSphere[i - ex + numSlices + 1].x;
+        v[j + 1] = vSphere[i - ex + numSlices + 1].y;
+        v[j + 2] = vSphere[i - ex + numSlices + 1].z;
         j += 3;
-        v[j] = vSphere[i - ex + 1].ponto[0];
-        v[j + 1] = vSphere[i - ex + 1].ponto[1];
-        v[j + 2] = vSphere[i - ex + 1].ponto[2];
+
+        v[j]     = vSphere[i - ex + 1].x;
+        v[j + 1] = vSphere[i - ex + 1].y;
+        v[j + 2] = vSphere[i - ex + 1].z;
         j += 3;
-        v[j] = vSphere[i].ponto[0];
-        v[j + 1] = vSphere[i].ponto[1];
-        v[j + 2] = vSphere[i].ponto[2];
+
+        v[j]     = vSphere[i].x;
+        v[j + 1] = vSphere[i].y;
+        v[j + 2] = vSphere[i].z;
         j += 3;
-        v[j] = vSphere[i + n].ponto[0];
-        v[j + 1] = vSphere[i + n].ponto[1];
-        v[j + 2] = vSphere[i + n].ponto[2];
+
+        v[j]     = vSphere[i + numSlices].x;
+        v[j + 1] = vSphere[i + numSlices].y;
+        v[j + 2] = vSphere[i + numSlices].z;
         j += 3;
-        v[j] = vSphere[i - ex + n + 1].ponto[0];
-        v[j + 1] = vSphere[i - ex + n + 1].ponto[1];
-        v[j + 2] = vSphere[i - ex + n + 1].ponto[2];
+
+        v[j]     = vSphere[i - ex + numSlices + 1].x;
+        v[j + 1] = vSphere[i - ex + numSlices + 1].y;
+        v[j + 2] = vSphere[i - ex + numSlices + 1].z;
         j += 3;
     }
 }
 
-void verticesSphere(float radius, int slices, int stacks) {
-    int n = slices;
-    int m = stacks;
-    const int numv = n * (m + 1);
+void verticesSphere(float radius, int numSlices, int numStacks) {
+    const int numv = numSlices * (numStacks + 1);
     int a = 0;
-    for (int i = 0; i < (m + 1); i++) {
-        float av = (M_PI / 2) - i * (M_PI / m);
+    for (int i = 0; i < (numStacks + 1); i++) {
+        float av = (M_PI / 2) - i * (M_PI / numStacks);
         float y = radius * sin(av);
-        for (int j = 0; j < n; j++) {
-            float ah = j * (2 * M_PI / n);
+        for (int j = 0; j < numSlices; j++) {
+            float ah = j * (2 * M_PI / numSlices);
             float x = radius * sin(ah) * cos(av);
             float z = radius * cos(ah) * cos(av);
 
-            if (y == radius || y == -radius) {
-                vSphere[a].ponto[0] = 0.0;
-                vSphere[a].ponto[1] = y;
-                vSphere[a].ponto[2] = 0.0;
-            }
-            else {
-                vSphere[a].ponto[0] = x;
-                vSphere[a].ponto[1] = y;
-                vSphere[a].ponto[2] = z;
-            }
+            Point p = { x, y, z };
+            vSphere[a] = p;
+
             a++;
         }
     }
