@@ -254,7 +254,7 @@ void genBox(float length, int div, float* v) {
             v[j + 2] = vBox[i + n + 1].ponto[2];
             j += 3;
         }
-        else if ((i%(n+1) == 0) && (i+n+1< 6 * numvface)) {
+        else if ((i%(n+1) == 0) && (i+n+1<= 6 * numvface)) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
             v[j + 2] = vBox[i].ponto[2];
