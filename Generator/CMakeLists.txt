@@ -16,4 +16,4 @@ add_executable(Generator
         plane.hpp
         sphere.cpp
         sphere.hpp
-	    ponto.hpp)
+        geometry.hpp)
