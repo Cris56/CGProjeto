@@ -82,7 +82,8 @@ int main(int argc, char** argv) {
             genCone(a1, a2, a3, a4, vertices.data());
         }
         else if (!strcmp(obj.c_str(), "plane") && argc == 5) {
-            vertices.resize((a2 + 1) * (a2 + 1) * 3);
+            const int numvt = (6 * a2 * a2);
+            vertices.resize(numvt * 3);
             genPlane(a1, a2, vertices.data());
         }
         else {
