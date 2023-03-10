@@ -1,2 +1,4 @@
 #include <math.h>
-void genCone(float radius, float height, float slices, float stacks, float *v);
+#include "ponto.hpp"
+
+void genCone(float radius, float height, int slices, int stacks, float *v);

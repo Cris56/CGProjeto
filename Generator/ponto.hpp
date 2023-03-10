@@ -1,3 +1,6 @@
+#ifndef PONTO_HPP
+#define PONTO_HPP
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <iostream>
@@ -6,8 +9,14 @@
 #include <cstring>
 #include <cstdlib>
 #include <vector>
-#include "ponto.hpp"
 using namespace std;
 
-void genSphere(float radius, int slices, int stacks, float *v);
-void verticesSphere(float radius, int slices, int stacks);
+struct ponto { float ponto[3]; };
+
+struct triangle {
+	ponto p1;
+	ponto p2;
+	ponto p3;
+};
+
+#endif
