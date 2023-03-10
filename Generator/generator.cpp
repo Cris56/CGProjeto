@@ -23,28 +23,31 @@ int main(int argc, char** argv) {
     try {
 
         if (strcmp(argv[1], "DEBUG") == 0) {
-            /*vector<float> PlaneVertices;
+
+            vector<float> PlaneVertices;
+            const int numvtPlane = (6 * 3 * 3);
+            PlaneVertices.resize(numvtPlane * 3);
             genPlane(1, 3, PlaneVertices.data());
-            save_vertices_to_file("planeDebug.3d", PlaneVertices);*/
+            save_vertices_to_file("plane_2_3.3d", PlaneVertices);
 
             vector<float> BoxVertices;
             const int numv = (48 * 3 * 3) + (12 * 3) - 24;
             BoxVertices.resize(numv * 3);
             genBox(2, 3, BoxVertices.data());
-            save_vertices_to_file("boxDebug.3d", BoxVertices);
+            save_vertices_to_file("box_2_3.3d", BoxVertices);
 
             vector<float> SphereVertices;
             const int numvt = 6 * 10 * 10;
             SphereVertices.resize(numvt * 3);
             genSphere(1, 10, 10, SphereVertices.data());
-            save_vertices_to_file("sphereDebug.3d", SphereVertices);
-
+            save_vertices_to_file("sphere_1_10_10.3d", SphereVertices);
+                
             vector<float> ConeVertices;
             int triangulosBase = 4 + 1;
             int triangulosBody = 4 * 3 * 2;
             ConeVertices.resize((triangulosBase + triangulosBody) * 9);
             genCone(1, 2, 4, 3, ConeVertices.data());
-            save_vertices_to_file("coneDebug.3d", ConeVertices);
+            save_vertices_to_file("cone_1_2_4_3.3d", ConeVertices);
 
             
 
