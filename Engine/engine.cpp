@@ -57,7 +57,22 @@ WorldInfo lerXML(char* file) {
 }
 
 void drawModels() {
+	glBegin(GL_LINES);
+		// X axis in red
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-100.0f, 0.0f, 0.0f);
+		glVertex3f(100.0f, 0.0f, 0.0f);
+		// Y Axis in Green
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(0.0f,-100.0f, 0.0f);
+		glVertex3f(0.0f, 100.0f, 0.0f);
+		// Z Axis in Blue
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(0.0f, 0.0f,-100.0f);
+		glVertex3f(0.0f, 0.0f, 100.0f);
+	glEnd();
 	glPolygonMode(GL_FRONT, GL_LINE);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_TRIANGLES);
 	for (int a = 0; a < nummodelos; a++) {
 		string model = world_info.models[a];
@@ -122,25 +137,6 @@ void renderScene(void) {
 		world_info.camlook[0], world_info.camlook[1], world_info.camlook[2],
 		world_info.camup[0], world_info.camup[1], world_info.camup[2]);
 
-	// render axis
-	glBegin(GL_LINES);
-		// X axis in red
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(
-			-100.0f, 0.0f, 0.0f);
-		glVertex3f(100.0f, 0.0f, 0.0f);
-		// Y Axis in Green
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(0.0f,
-			-100.0f, 0.0f);
-		glVertex3f(0.0f, 100.0f, 0.0f);
-		// Z Axis in Blue
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.0f, 0.0f,
-			-100.0f);
-		glVertex3f(0.0f, 0.0f, 100.0f);
-	glEnd();
-
 	// drawing instructions
 	drawModels();
 
@@ -149,7 +145,7 @@ void renderScene(void) {
 }
 
 int main(int argc, char** argv) {
-    char str[] = "../../data/teste.xml";
+    char str[] = "../../data/test_1_4.xml";
     
     world_info = lerXML(str);
     
