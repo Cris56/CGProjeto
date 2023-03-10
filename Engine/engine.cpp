@@ -122,6 +122,25 @@ void renderScene(void) {
 		world_info.camlook[0], world_info.camlook[1], world_info.camlook[2],
 		world_info.camup[0], world_info.camup[1], world_info.camup[2]);
 
+	// render axis
+	glBegin(GL_LINES);
+		// X axis in red
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(
+			-100.0f, 0.0f, 0.0f);
+		glVertex3f(100.0f, 0.0f, 0.0f);
+		// Y Axis in Green
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(0.0f,
+			-100.0f, 0.0f);
+		glVertex3f(0.0f, 100.0f, 0.0f);
+		// Z Axis in Blue
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(0.0f, 0.0f,
+			-100.0f);
+		glVertex3f(0.0f, 0.0f, 100.0f);
+	glEnd();
+
 	// drawing instructions
 	drawModels();
 
