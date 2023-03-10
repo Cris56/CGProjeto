@@ -6,7 +6,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <vector>
-#include "geometry.hpp"
 using namespace std;
 
 void genPlane(float size, int divisions, float* v);
