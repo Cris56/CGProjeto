@@ -1,6 +1,6 @@
 #include "plane.hpp"
+#include "geometry.hpp"
 
-struct ponto { float ponto[3]; };
 vector<ponto> vplan;
 
 

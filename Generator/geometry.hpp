@@ -1,5 +1,5 @@
-#ifndef PONTO_HPP
-#define PONTO_HPP
+#ifndef GEOMETRY_HPP
+#define GEOMETRY_HPP
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -17,6 +17,18 @@ struct triangle {
 	ponto p1;
 	ponto p2;
 	ponto p3;
+};
+
+struct Point {
+    float x;
+    float y;
+    float z;
+};
+
+struct Triangle {
+    Point vertex1;
+    Point vertex2;
+    Point vertex3;
 };
 
 #endif
