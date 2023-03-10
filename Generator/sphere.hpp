@@ -6,7 +6,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <vector>
-#include "ponto.hpp"
+#include "geometry.hpp"
 using namespace std;
 
 void genSphere(float radius, int slices, int stacks, float *v);
