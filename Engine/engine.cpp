@@ -161,7 +161,7 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(world_info.window_w, world_info.window_h);
-	glutCreateWindow("CG@DI-UM");
+	glutCreateWindow("CG@DI-UM Grupo 7");
 
 	// callback registry
 	glutDisplayFunc(renderScene);
