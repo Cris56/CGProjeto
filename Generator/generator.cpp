@@ -21,6 +21,36 @@ void save_vertices_to_file(const char* filename, const vector<float>& vertices) 
 
 int main(int argc, char** argv) {
     try {
+
+        if (strcmp(argv[1], "DEBUG") == 0) {
+            /*vector<float> PlaneVertices;
+            genPlane(1, 3, PlaneVertices.data());
+            save_vertices_to_file("planeDebug.3d", PlaneVertices);*/
+
+            vector<float> BoxVertices;
+            const int numv = (48 * 3 * 3) + (12 * 3) - 24;
+            BoxVertices.resize(numv * 3);
+            genBox(2, 3, BoxVertices.data());
+            save_vertices_to_file("boxDebug.3d", BoxVertices);
+
+            vector<float> SphereVertices;
+            const int numvt = 6 * 10 * 10;
+            SphereVertices.resize(numvt * 3);
+            genSphere(1, 10, 10, SphereVertices.data());
+            save_vertices_to_file("sphereDebug.3d", SphereVertices);
+
+            vector<float> ConeVertices;
+            int triangulosBase = 4 + 1;
+            int triangulosBody = 4 * 3 * 2;
+            ConeVertices.resize((triangulosBase + triangulosBody) * 9);
+            genCone(1, 2, 4, 3, ConeVertices.data());
+            save_vertices_to_file("coneDebug.3d", ConeVertices);
+
+            
+
+            return 0;
+        }
+
         if (argc < 5 || argc > 7) {
             throw invalid_argument("Invalid number of arguments");
         }
@@ -39,7 +69,8 @@ int main(int argc, char** argv) {
             genSphere(a1, a2, a3, vertices.data());
         }
         else if (!strcmp(obj.c_str(), "box") && argc == 5) {
-            vertices.resize(24);
+            const int numv = (48 * a2 * a2) + (12 * a2) - 24;
+            vertices.resize(numv * 3);
             genBox(a1, a2, vertices.data());
         }
         else if (!strcmp(obj.c_str(), "cone") && argc == 7) {
