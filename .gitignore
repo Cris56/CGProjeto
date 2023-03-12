@@ -491,3 +491,5 @@ Engine/.idea/Engine.iml
 Engine/.idea/misc.xml
 Engine/.idea/modules.xml
 Engine/.idea/vcs.xml
+Generator/Generator.vcxproj.filters
+Generator/Generator.vcxproj
