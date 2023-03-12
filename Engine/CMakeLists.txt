@@ -42,6 +42,10 @@ if  (WIN32)
     
 else (WIN32) #Linux and Mac
 
+    if(NOT GLUT_FOUND)
+        set(GLUT_INCLUDE_DIR /opt/homebrew/include)
+    endif()
+
     set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} Wno-deprecated")
     find_package(GLUT REQUIRED)
     include_directories(${GLUT_INCLUDE_DIR})
