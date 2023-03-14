@@ -145,7 +145,16 @@ void renderScene(void) {
 }
 
 int main(int argc, char** argv) {
-    char str[] = "../../data/test_1_4.xml";
+    if (argc != 2) {
+        printf("Usage: %s <file name>\n", argv[0]);
+        return 1;
+    }
+
+    // Replace the file name in the array with the command-line argument
+    char str[] = "../../data/";
+    strcat(str, argv[1]);
+
+    printf("Opening file: %s\n", str);
     
     world_info = lerXML(str);
     

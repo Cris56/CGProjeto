@@ -1,92 +1,49 @@
 #!/bin/bash
 
 # check the number of arguments
-if [ "$#" -lt 3 ]; then
-  echo "Error: At least two arguments are required."
+if [ "$#" -lt 1 ]; then
+  echo "Error: One argument is required."
   exit 1
 fi
 
-# assign the first argument to a variable
-shape=$1
+xmlFile=$1
 
-# use a case statement to handle different shapes
-case $shape in
-  sphere)
-    if [ "$#" -ne 5 ]; then
-      echo "Error: Wrong number of arguments for $shape."
-      exit 1
-    fi
-    radius=$2
-    slices=$3
-    stacks=$4
-    filename=$5
-    echo "Creating a sphere with radius $radius, $slices slices, $stacks stacks and saving to $filename..."
-    ;;
-  box)
-    if [ "$#" -ne 4 ]; then
-      echo "Error: Wrong number of arguments for $shape."
-      exit 1
-    fi
-    length=$2
-    divisions=$3
-    filename=$4
-    echo "Creating a box with length of $length units where each side is divided in a grid $divisions x $divisions and saving to $filename..."
-    ;;
-  cone)
-    if [ "$#" -ne 6 ]; then
-      echo "Error: Wrong number of arguments for $shape."
-      exit 1
-    fi
-    radius=$2
-    height=$3
-    slices=$4
-    stacks=$5
-    filename=$6
-    echo "Creating a cone with radius $radius, height $height, $slices slices, $stacks stacks and saving to $filename..."
-    ;;
-  plane)
-    if [ "$#" -ne 4 ]; then
-      echo "Error: Wrong number of arguments for $shape."
-      exit 1
-    fi
-    width=$2
-    divisions=$3
-    filename=$4
-    echo "Creating a plane with $width unit in length, $divisions along each axis and saving to $filename..."
-    ;;
-*)
-    echo "Error: Invalid shape '$shape'."
-    exit 1
-    ;;
-esac
-
-# Build the change_model to change the xml file
+# Get the model names from the xml file
 cd data
-g++ change_model.cpp -o change_model
-./change_model teste.xml $filename
+regex='file="([^"]+)"'
+
+xmlContent=$(cat "$xmlFile")
+models=$(echo "$xmlContent" | grep -oE "$regex" | sed 's/file="//' | sed 's/"//' | sed -E 's/^(sphere|plane|box|cone)_([0-9]+)_([0-9]+)(_([0-9]+))?(_([0-9]+))?\.3d$/\1 \2 \3 \5 \7 \1\_\2_\3\4\6.3d/' | sed 's/\<0*\([1-9]\)/\1/g' | paste -sd "," - | tr -s ' ' | tr -d '\n')
+
+echo "The model names are: $models"
 
 # Build the generator
+echo "Building the generator..."
 cd ../Generator
 mkdir -p build
 cd build
 cmake ..
 make
 
-# Run the generator with appropriate parameters based on shape
-if [ "$shape" == "sphere" ]; then
-    ./generator sphere $radius $slices $stacks $filename
-elif [ "$shape" == "box" ]; then
-    ./generator box $length $divisions $filename
-elif [ "$shape" == "cone" ]; then
-    ./generator cone $radius $height $slices $stacks $filename
-elif [ "$shape" == "plane" ]; then
-    ./generator plane $width $divisions $filename
+# Split model names into an array
+IFS=',' read -ra modelNames <<< "$models"
+
+# Loop over the array of model names and run the generator for each one
+for name in "${modelNames[@]}"
+do
+    echo "Running the generator for $name ..."
+    read -ra params <<< "$name"
+    if [ "${params[0]}" == "sphere" ] || [ "${params[0]}" == "plane" ] || [ "${params[0]}" == "box" ] || [ "${params[0]}" == "cone" ]; then
+    ./generator $name
 else
-    echo "Error: Invalid shape '$shape'."
+    echo "Error: Invalid shape '${params[0]}'."
     exit 1
 fi
 
+done
+
 # Build the engine
+echo "Building the engine..."
 cd ../../Engine
 mkdir -p build
 cd build
@@ -94,5 +51,5 @@ cmake ..
 make
 
 # Run the engine
-./engine
-  
+echo "Running the engine..."
+./engine $xmlFile
