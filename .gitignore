@@ -493,3 +493,5 @@ Engine/.idea/modules.xml
 Engine/.idea/vcs.xml
 Generator/Generator.vcxproj.filters
 Generator/Generator.vcxproj
+parte2/Engine/.vscode/launch.json
+parte2/Engine/.vscode/tasks.json
