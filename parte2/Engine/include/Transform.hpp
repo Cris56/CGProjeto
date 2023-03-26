@@ -9,6 +9,7 @@ public:
     Transform();
     Vector3 getTranslation() const;
     Vector3 getRotation() const;
+    Vector3 getScale() const;
     float getRotationAngle() const;
     void setTranslation(float x, float y, float z);
     void setRotation(float x, float y, float z, float angle);

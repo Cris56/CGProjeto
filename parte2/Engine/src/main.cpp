@@ -16,6 +16,7 @@ World world;
 void drawModels();
 void changeSize(int w, int h);
 void renderScene(void);
+void renderGroups(Group group);
 
 void drawModels() {
 
@@ -33,6 +34,12 @@ void drawModels() {
 		glVertex3f(0.0f, 0.0f,-100.0f);
 		glVertex3f(0.0f, 0.0f, 100.0f);
 	glEnd();
+
+	glPolygonMode(GL_FRONT, GL_LINE);
+		
+	glColor3f(1.0f, 1.0f, 1.0f);
+
+	renderGroups(world.group);
 }
 
 void changeSize(int w, int h) {
@@ -71,6 +78,36 @@ void renderScene(void) {
 
 	// end of frame
 	glutSwapBuffers();
+}
+
+void renderGroups(Group group) {
+	
+	for(size_t i = 0; i < group.transforms.size(); i++) {
+		Transform transform = group.transforms[i];
+		glRotatef(transform.getRotationAngle(), transform.getRotation().x, transform.getRotation().y, transform.getRotation().z);
+		glTranslatef(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
+		glScalef(transform.getScale().x, transform.getScale().y ,transform.getScale().z);
+	}
+	
+	glBegin(GL_TRIANGLES);
+	
+	for(size_t i = 0; i < group.models.size(); i++) {
+		Model model = group.models[i];
+		for(size_t j = 0; j < model.getVertices().size(); j++) {
+			Vector3 vertices = model.getVertices()[j];
+			glVertex3f(vertices.x, vertices.y, vertices.z);
+		}
+	}
+	
+	glEnd();
+
+	for (size_t i = 0; i < group.groups.size(); i++) {
+		Group childGroup = group.groups[i];
+		glPushMatrix();
+		renderGroups(childGroup);
+		glPopMatrix();
+	}
+	
 }
 
 int main(int argc, char** argv) {

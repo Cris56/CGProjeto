@@ -17,6 +17,10 @@ float Transform::getRotationAngle() const {
     return rotationAngle;
 }
 
+Vector3 Transform::getScale() const {
+    return scaleAxis;
+}
+
 void Transform::setTranslation(float x, float y, float z) {
     translationAxis.x = x;
     translationAxis.y = y;
