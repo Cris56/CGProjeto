@@ -39,7 +39,7 @@ void drawModels() {
 		
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	renderGroups(world.group);
+	renderGroups(world.getGroup());
 }
 
 void changeSize(int w, int h) {
@@ -69,9 +69,9 @@ void renderScene(void) {
 
 	// set camera
 	glLoadIdentity();
-	gluLookAt(world.camera.position.x, world.camera.position.y, world.camera.position.z,
-		      world.camera.lookAt.x, world.camera.lookAt.y, world.camera.lookAt.z,
-              world.camera.up.x, world.camera.up.y, world.camera.up.z);
+	gluLookAt(world.getCamera().getPosition().getX(), world.getCamera().getPosition().getY(), world.getCamera().getPosition().getZ(),
+		      world.getCamera().getLookAt().getX(), world.getCamera().getLookAt().getY(), world.getCamera().getLookAt().getZ(),
+              world.getCamera().getUp().getX(), world.getCamera().getUp().getY(), world.getCamera().getUp().getZ());
 
 	// drawing instructions
 	drawModels();
@@ -82,11 +82,22 @@ void renderScene(void) {
 
 void renderGroups(Group group) {
 	
-	for(size_t i = 0; i < group.transforms.size(); i++) {
-		Transform transform = group.transforms[i];
-		glRotatef(transform.getRotationAngle(), transform.getRotation().x, transform.getRotation().y, transform.getRotation().z);
-		glTranslatef(transform.getTranslation().x, transform.getTranslation().y, transform.getTranslation().z);
-		glScalef(transform.getScale().x, transform.getScale().y ,transform.getScale().z);
+	Transform transform = group.getTransform();
+	std::vector<TransformType> transformOrder = transform.getTransformationOrder();
+
+	for (size_t j = 0; j < transformOrder.size(); j++) {
+		TransformType type = transformOrder[j];
+		switch(type) {
+			case TRANSLATION:
+				glTranslatef(transform.getTranslation().getX(), transform.getTranslation().getY(), transform.getTranslation().getZ());
+				break;
+			case ROTATION:
+				glRotatef(transform.getRotationAngle(), transform.getRotation().getX(), transform.getRotation().getY(), transform.getRotation().getZ());
+				break;
+			case SCALING:
+				glScalef(transform.getScale().getX(), transform.getScale().getY(), transform.getScale().getZ());
+				break;
+		}
 	}
 	
 	glBegin(GL_TRIANGLES);
@@ -95,7 +106,7 @@ void renderGroups(Group group) {
 		Model model = group.models[i];
 		for(size_t j = 0; j < model.getVertices().size(); j++) {
 			Vector3 vertices = model.getVertices()[j];
-			glVertex3f(vertices.x, vertices.y, vertices.z);
+			glVertex3f(vertices.getX(), vertices.getY(), vertices.getZ());
 		}
 	}
 	
@@ -110,6 +121,7 @@ void renderGroups(Group group) {
 	
 }
 
+
 int main(int argc, char** argv) {
 
     if (argc != 2) {
@@ -123,7 +135,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(world.width, world.height);
+	glutInitWindowSize(world.getWidth(), world.getHeight());
 	glutCreateWindow("CG@DI-UM Grupo 7");
 
 	// callback registry

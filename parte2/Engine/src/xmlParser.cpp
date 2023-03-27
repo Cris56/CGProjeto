@@ -12,66 +12,65 @@ World convertToWorld(const char* fileName) {
     xml_document doc;
     xml_parse_result result = doc.load_file(filePath.c_str(), parse_default, encoding_auto);
     std::cout << "XML [" << filePath << "] parsed with result [" << result.description() << "]\n";
+
     // Access the window element
     xml_node window_node = doc.child("world").child("window");
     world.setWidth(window_node.attribute("width").as_int());
     world.setHeight(window_node.attribute("height").as_int());
     
+    Camera camera;
+    
     // Access the camera position, lookAt, up, and projection elements
     xml_node position_node = doc.child("world").child("camera").child("position");
-    world.camera.setPosition(position_node.attribute("x").as_float(), position_node.attribute("y").as_float(), position_node.attribute("z").as_float());
+    camera.setPosition(position_node.attribute("x").as_float(), position_node.attribute("y").as_float(), position_node.attribute("z").as_float());
     
     xml_node lookAt_node = doc.child("world").child("camera").child("lookAt");
-    world.camera.setLookAt(lookAt_node.attribute("x").as_float(), world.camera.lookAt.y = lookAt_node.attribute("y").as_float(), world.camera.lookAt.z = lookAt_node.attribute("z").as_float());
+    camera.setLookAt(lookAt_node.attribute("x").as_float(), lookAt_node.attribute("y").as_float(), lookAt_node.attribute("z").as_float());
 
     xml_node up_node = doc.child("world").child("camera").child("up");
-    world.camera.setUp(up_node.attribute("x").as_float(), world.camera.up.y = up_node.attribute("y").as_float(), world.camera.up.z = up_node.attribute("z").as_float());
+    camera.setUp(up_node.attribute("x").as_float(), up_node.attribute("y").as_float(), up_node.attribute("z").as_float());
    
     xml_node projection_node = doc.child("world").child("camera").child("projection");
-    world.camera.setFov(projection_node.attribute("fov").as_float());
-    world.camera.setNear(projection_node.attribute("near").as_float());
-    world.camera.setFar(projection_node.attribute("far").as_float());
+    camera.setFov(projection_node.attribute("fov").as_float());
+    camera.setNear(projection_node.attribute("near").as_float());
+    camera.setFar(projection_node.attribute("far").as_float());
+
+    world.setCamera(camera);
 
     xml_node group_node = doc.child("world").child("group");
-    world.group = convertGroup(group_node);
+    world.setGroup(convertGroup(group_node));
     return world;
 }
 
 Group convertGroup(xml_node group_node) {
-    Group group;
 
+    Group group;
     xml_node child;
+
     for (child = group_node.first_child(); child; child = child.next_sibling()) {
         if (std::string(child.name()) == "group") {
-            group.groups.push_back(convertGroup(child));
+            group.addGroup(convertGroup(child));
 
         } else if (std::string(child.name()) == "transform") {
-
-            xml_node translate = child.child("translate");
-            xml_node rotate = child.child("rotate");
-            xml_node scale = child.child("scale");
-
+            
             Transform transform;
 
-            if (!translate.empty()) {
-                transform.setTranslation(translate.attribute("x").as_float(), translate.attribute("y").as_float(), translate.attribute("z").as_float());
+            for(xml_node transform_node = child.first_child(); transform_node; transform_node = transform_node.next_sibling()) {
+                if (std::string(transform_node.name()) == "translate") {
+                    transform.setTranslation(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float());
+                } else if (std::string(transform_node.name()) == "rotate") {
+                    transform.setRotation(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float(), transform_node.attribute("angle").as_float());
+                } else if (std::string(transform_node.name()) == "scale") {
+                    transform.setScale(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float());
+                }
             }
-
-            if (!rotate.empty()) {
-                transform.setRotation(rotate.attribute("x").as_float(), rotate.attribute("y").as_float(), rotate.attribute("z").as_float(), rotate.attribute("angle").as_float());
-            }
-
-            if (!scale.empty()) {
-                transform.setScale(scale.attribute("x").as_float(), scale.attribute("y").as_float(), scale.attribute("z").as_float());
-            }
-
-            group.transforms.push_back(transform);
+            group.setTransform(transform);
 
         } else if (std::string(child.name()) == "models") {
             xml_node model_node;
             for (model_node = child.first_child(); model_node; model_node = model_node.next_sibling()) {
                 Model model(path, model_node.attribute("file").value());
-                group.models.push_back(model);
+                group.addModel(model);
             }
         }
     }

@@ -5,13 +5,6 @@
 
 class Camera {
 public:
-    Vector3 position;
-    Vector3 lookAt;
-    Vector3 up;
-
-    float fov;
-    float near;
-    float far;
 
     Camera();
     Camera(const Vector3 &p, const Vector3 &l, const Vector3 &u, float f, float n, float fa);
@@ -27,6 +20,15 @@ public:
     void setFov(float f);
     void setNear(float n);
     void setFar(float f);
+
+private:
+    Vector3 position;
+    Vector3 lookAt;
+    Vector3 up;
+
+    float fov;
+    float near;
+    float far;
 };
 
 #endif // CAMERA_HPP

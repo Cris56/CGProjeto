@@ -6,11 +6,6 @@
 
 class World {
 public:
-    int width;
-    int height;
-    Camera camera;
-    Group group;
-
     World();
     World(int w, int h, const Camera &c, const Group &g);
     int getWidth() const;
@@ -21,6 +16,12 @@ public:
     void setHeight(int h);
     void setCamera(const Camera &c);
     void setGroup(const Group &g);
+
+private:
+    int width;
+    int height;
+    Camera camera;
+    Group group;
 };
 
 #endif // WORLD_HPP

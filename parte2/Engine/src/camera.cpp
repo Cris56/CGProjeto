@@ -40,21 +40,21 @@ float Camera::getFar() const {
 }
 
 void Camera::setPosition(float x, float y, float z) {
-    position.x = x;
-    position.y = y;
-    position.z = z;
+    position.setX(x);
+    position.setY(y);
+    position.setZ(z);
 }
 
 void Camera::setLookAt(float x, float y, float z) {
-    lookAt.x = x;
-    lookAt.y = y;
-    lookAt.z = z;
+    lookAt.setX(x);
+    lookAt.setY(y);
+    lookAt.setZ(z);
 }
 
 void Camera::setUp(float x, float y, float z) {
-    up.x = x;
-    up.y = y;
-    up.z = z;
+    up.setX(x);
+    up.setY(y);
+    up.setZ(z);
 }
 
 void Camera::setFov(float f) {

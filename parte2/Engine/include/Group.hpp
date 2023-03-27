@@ -8,10 +8,17 @@
 class Group {
 public:
     std::vector<Group> groups;
-    std::vector<Transform> transforms;
     std::vector<Model> models;
 
     Group();
+
+    void addGroup(const Group &g);
+    void addModel(const Model &m);
+    Transform getTransform() const;
+    void setTransform(const Transform &t);
+
+private:
+    Transform transform;
 };
 
 #endif // GROUP_HPP
