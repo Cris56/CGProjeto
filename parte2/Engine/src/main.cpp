@@ -10,13 +10,19 @@
 #include "World.hpp"
 #include "XMLParser.hpp"
 #include <iostream>
+#include <math.h>
 
 World world;
+
+double r;
+double theta;
+double phi;
 
 void drawModels();
 void changeSize(int w, int h);
 void renderScene(void);
 void renderGroups(Group group);
+void keyboard(unsigned char key, int x, int y);
 
 void drawModels() {
 
@@ -69,7 +75,8 @@ void renderScene(void) {
 
 	// set camera
 	glLoadIdentity();
-	gluLookAt(world.getCamera().getPosition().getX(), world.getCamera().getPosition().getY(), world.getCamera().getPosition().getZ(),
+
+	gluLookAt(r * sin(theta) * cos(phi),r * sin(phi), r * cos(theta) * cos(phi),
 		      world.getCamera().getLookAt().getX(), world.getCamera().getLookAt().getY(), world.getCamera().getLookAt().getZ(),
               world.getCamera().getUp().getX(), world.getCamera().getUp().getY(), world.getCamera().getUp().getZ());
 
@@ -121,6 +128,42 @@ void renderGroups(Group group) {
 	
 }
 
+// write function to process keyboard events
+void keyboard(unsigned char key, int x, int y) {
+	switch (toupper(key))
+	{
+	case 'W':
+		phi += 0.1f;
+		if (phi > 1.5f)
+			phi = 1.5f;
+		glutPostRedisplay();
+		break;
+	case 'S':
+		phi -= 0.1f;
+		if (phi < -1.5f)
+			phi = -1.5f;
+		glutPostRedisplay();
+		break;
+	case 'A':
+		theta -= 0.1f;
+		glutPostRedisplay();
+		break;
+	case 'D':
+		theta += 0.1f;
+		glutPostRedisplay();
+		break;
+	case 'Q':
+		r += 5.0f;
+		glutPostRedisplay();
+		break;
+	case 'E':
+		r -= 5.0f;
+		glutPostRedisplay();
+		break;
+	default:
+		break;
+	};
+}
 
 int main(int argc, char** argv) {
 
@@ -130,6 +173,14 @@ int main(int argc, char** argv) {
     }
     
     world = convertToWorld(argv[1]);
+
+	float x = world.getCamera().getPosition().getX();
+	float y = world.getCamera().getPosition().getY();
+	float z = world.getCamera().getPosition().getZ();
+
+	r = sqrt(x*x + y*y + z*z);
+	theta = atan2(sqrt(x * x + y * y), z);
+	phi = atan2(y, x);
 
 	// GLUT init
 	glutInit(&argc, argv);
@@ -142,6 +193,8 @@ int main(int argc, char** argv) {
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
 	glutIdleFunc(renderScene);
+
+	glutKeyboardFunc(keyboard);
 
 	// some OpenGL settings
 	glEnable(GL_DEPTH_TEST);
