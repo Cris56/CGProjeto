@@ -2,17 +2,15 @@
 #define POINT_HPP
 
 class Point {
-private:
-    double x, y, z;
 
 public:
     Point(double x, double y, double z);
     double getX() const;
     double getY() const;
     double getZ() const;
-    double getRadius();
-    double getalpha();
-    double getbeta();
+    double getRadius() const;
+    double getalpha() const;
+    double getbeta() const;
     void setX(double newX);
     void setY(double newY);
     void setZ(double newZ);
@@ -21,6 +19,9 @@ public:
     void incrementalpha(double deltaalpha);
     void printSphericalCoordinates() const;
     void printCartesianCoordinates() const;
+    
+private:
+    double x, y, z;
     void spherical2Cartesian(double r, double beta, double alpha);
 };
 

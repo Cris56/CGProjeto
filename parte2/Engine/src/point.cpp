@@ -9,22 +9,20 @@ Point::Point(double x, double y, double z) : x(x), y(y), z(z) {}
 double Point::getX() const { return x; }
 double Point::getY() const { return y; }
 double Point::getZ() const { return z; }
+double Point::getRadius() const { return sqrt(x*x + y*y + z*z); }
+double Point::getalpha() const { return std::atan2(x, z); }
+double Point::getbeta() const { return M_PI/2 - std::acos(y/std::sqrt(x*x + y*y + z*z)); }
 void Point::setX(double newX) { x = newX; }
 void Point::setY(double newY) { y = newY; }
 void Point::setZ(double newZ) { z = newZ; }
 
-double Point::getRadius() { return sqrt(x*x + y*y + z*z); }
-
-double Point::getalpha() { return atan2(x, z); }
-
-double Point::getbeta() { return M_PI/2 - acos(y/sqrt(x*x + y*y + z*z)); }
-
 // Increment functions
 void Point::incrementRadius(double deltaRadius) {
-    double currentRadius = std::sqrt(x*x + y*y + z*z);
+    double currentRadius = getRadius();
     double currentBeta = getbeta();
     double currentAlpha = getalpha();
     double newRadius = currentRadius + deltaRadius;
+    if (newRadius <= 0) newRadius = std::numeric_limits<double>::epsilon();
     spherical2Cartesian(newRadius, currentBeta, currentAlpha);
 }
 
@@ -33,10 +31,10 @@ void Point::incrementbeta(double deltaBeta) {
     double currentBeta = getbeta();
     double currentAlpha = getalpha();
     double newBeta = currentBeta + deltaBeta;
-    if (newBeta > 1.5) {
-        newBeta = 1.5;
-    } else if (newBeta < -1.5) {
-        newBeta = -1.5;
+    if (newBeta > M_PI/2) {
+        newBeta = M_PI/2;
+    } else if (newBeta < -M_PI/2) {
+        newBeta = -M_PI/2;
     }
     spherical2Cartesian(currentRadius, newBeta, currentAlpha);
 }
@@ -51,14 +49,14 @@ void Point::incrementalpha(double deltaalpha) {
 
 // Print functions
 void Point::printSphericalCoordinates() const {
-    double radius = std::sqrt(x*x + y*y + z*z);
+    double radius = getRadius();
     double alpha = atan2(x, z);
     double beta = M_PI/2 - acos(y/sqrt(x*x + y*y + z*z));
-    std::cout << "r = " << radius << ", beta = " << beta << ", alpha = " << alpha << std::endl;
+    std::cout << "Spherical coordinates: r = " << radius << ", beta = " << beta << ", alpha = " << alpha << std::endl;
 }
 
 void Point::printCartesianCoordinates() const {
-    std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
+    std::cout << "Cartesian coordinates: (" << x << ", " << y << ", " << z << ")" << std::endl;
 }
 
 void Point::spherical2Cartesian(double radius, double beta, double alpha) {
