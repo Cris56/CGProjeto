@@ -1,4 +1,4 @@
-#include "Group.hpp"
+#include "group.hpp"
 
 Group::Group() {}
 

@@ -10,13 +10,13 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_executable(${PROJECT_NAME} src/main.cpp 
                                src/world.cpp 
-                               src/Group.cpp 
-                               src/Camera.cpp 
-                               src/Vector3.cpp 
-                               src/XMLParser.cpp
-                               src/Model.cpp
-                               src/Transform.cpp
-                               src/pugixml.cpp)
+                               src/group.cpp 
+                               src/camera.cpp
+                               src/xmlParser.cpp
+                               src/model.cpp
+                               src/transform.cpp
+                               src/pugixml.cpp
+                               src/point.cpp)
 
 add_library(pugi STATIC src/pugixml.cpp)
 target_include_directories(pugi PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

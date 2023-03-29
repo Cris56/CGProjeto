@@ -1,8 +1,8 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include "Camera.hpp"
-#include "Group.hpp"
+#include "camera.hpp"
+#include "group.hpp"
 
 class World {
 public:
@@ -16,6 +16,9 @@ public:
     void setHeight(int h);
     void setCamera(const Camera &c);
     void setGroup(const Group &g);
+    void incrementCameraPositionbetaAngle(float angle);
+    void incrementCameraPositionalphaAngle(float angle);
+    void incrementCameraPositionRadius(float radius);
 
 private:
     int width;

@@ -1,7 +1,7 @@
 #ifndef XMLPARSER_HPP
 #define XMLPARSER_HPP
 
-#include "World.hpp"
+#include "world.hpp"
 #include "pugixml.hpp"
 
 using namespace pugi;

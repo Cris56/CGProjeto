@@ -6,20 +6,20 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include "Vector3.hpp"
+#include "point.hpp"
 
 class Model {
 public:
     Model(const std::string &path, const std::string &fileName);
     void readVertices(const std::string& filePath);
 
-    const std::vector<Vector3>& getVertices() const {
+    const std::vector<Point>& getVertices() const {
         return vertices;
     }
 
 private:
     std::string file;
-    std::vector<Vector3> vertices;
+    std::vector<Point> vertices;
 };
 
 #endif /* MODEL_HPP */

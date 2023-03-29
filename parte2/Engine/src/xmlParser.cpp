@@ -1,4 +1,4 @@
-#include "XMLParser.hpp"
+#include "xmlParser.hpp"
 #include <iostream>
 
 std::string path = "../../data/";

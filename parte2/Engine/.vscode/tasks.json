@@ -18,7 +18,7 @@
                 "${workspaceFolder}/src/world.cpp",
                 "${workspaceFolder}/src/group.cpp",
                 "${workspaceFolder}/src/camera.cpp",
-                "${workspaceFolder}/src/vector3.cpp",
+                "${workspaceFolder}/src/point.cpp",
                 "${workspaceFolder}/src/xmlParser.cpp",
                 "${workspaceFolder}/src/pugixml.cpp",
                 "-framework",

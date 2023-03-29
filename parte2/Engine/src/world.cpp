@@ -1,4 +1,4 @@
-#include "World.hpp"
+#include "world.hpp"
 
 World::World() : width(512), height(512), camera(), group() {}
 
@@ -34,4 +34,16 @@ void World::setCamera(const Camera& c) {
 
 void World::setGroup(const Group& g) {
     group = g;
+}
+
+void World::incrementCameraPositionbetaAngle(float angle) {
+    camera.incrementPositionbetaAngle(angle);
+}
+
+void World::incrementCameraPositionalphaAngle(float angle) {
+    camera.incrementPositionalphaAngle(angle);
+}
+
+void World::incrementCameraPositionRadius(float radius) {
+    camera.incrementPositionRadius(radius);
 }

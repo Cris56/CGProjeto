@@ -1,16 +1,16 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "Vector3.hpp"
+#include "point.hpp"
 
 class Camera {
 public:
 
     Camera();
-    Camera(const Vector3 &p, const Vector3 &l, const Vector3 &u, float f, float n, float fa);
-    Vector3 getPosition() const;
-    Vector3 getLookAt() const;
-    Vector3 getUp() const;
+    Camera(const Point &p, const Point &l, const Point &u, float f, float n, float fa);
+    Point getPosition() const;
+    Point getLookAt() const;
+    Point getUp() const;
     float getFov() const;
     float getNear() const;
     float getFar() const;
@@ -20,11 +20,14 @@ public:
     void setFov(float f);
     void setNear(float n);
     void setFar(float f);
+    void incrementPositionbetaAngle(float angle);
+    void incrementPositionalphaAngle(float angle);
+    void incrementPositionRadius(float radius);
 
 private:
-    Vector3 position;
-    Vector3 lookAt;
-    Vector3 up;
+    Point position;
+    Point lookAt;
+    Point up;
 
     float fov;
     float near;

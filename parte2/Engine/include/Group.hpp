@@ -2,8 +2,8 @@
 #define GROUP_HPP
 
 #include <vector>
-#include "Transform.hpp"
-#include "Model.hpp"
+#include "transform.hpp"
+#include "model.hpp"
 
 class Group {
 public:

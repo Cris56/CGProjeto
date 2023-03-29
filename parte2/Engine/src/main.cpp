@@ -7,16 +7,12 @@
 #include <GL/glut.h>
 #endif
 
-#include "World.hpp"
-#include "XMLParser.hpp"
+#include "world.hpp"
+#include "xmlParser.hpp"
 #include <iostream>
 #include <math.h>
 
 World world;
-
-double r;
-double theta;
-double phi;
 
 void drawModels();
 void changeSize(int w, int h);
@@ -76,7 +72,10 @@ void renderScene(void) {
 	// set camera
 	glLoadIdentity();
 
-	gluLookAt(r * sin(theta) * cos(phi),r * sin(phi), r * cos(theta) * cos(phi),
+	//world.getCamera().getPosition().printCartesianCoordinates();
+	world.getCamera().getPosition().printSphericalCoordinates();
+
+	gluLookAt(world.getCamera().getPosition().getX(), world.getCamera().getPosition().getY(), world.getCamera().getPosition().getZ(),
 		      world.getCamera().getLookAt().getX(), world.getCamera().getLookAt().getY(), world.getCamera().getLookAt().getZ(),
               world.getCamera().getUp().getX(), world.getCamera().getUp().getY(), world.getCamera().getUp().getZ());
 
@@ -112,7 +111,7 @@ void renderGroups(Group group) {
 	for(size_t i = 0; i < group.models.size(); i++) {
 		Model model = group.models[i];
 		for(size_t j = 0; j < model.getVertices().size(); j++) {
-			Vector3 vertices = model.getVertices()[j];
+			Point vertices = model.getVertices()[j];
 			glVertex3f(vertices.getX(), vertices.getY(), vertices.getZ());
 		}
 	}
@@ -133,36 +132,27 @@ void keyboard(unsigned char key, int x, int y) {
 	switch (toupper(key))
 	{
 	case 'W':
-		phi += 0.1f;
-		if (phi > 1.5f)
-			phi = 1.5f;
-		glutPostRedisplay();
+		world.incrementCameraPositionbetaAngle(0.1f);
 		break;
 	case 'S':
-		phi -= 0.1f;
-		if (phi < -1.5f)
-			phi = -1.5f;
-		glutPostRedisplay();
+		world.incrementCameraPositionbetaAngle(-0.1f);
 		break;
 	case 'A':
-		theta -= 0.1f;
-		glutPostRedisplay();
+		world.incrementCameraPositionalphaAngle(-0.1f);
 		break;
 	case 'D':
-		theta += 0.1f;
-		glutPostRedisplay();
+		world.incrementCameraPositionalphaAngle(0.1f);
 		break;
 	case 'Q':
-		r += 5.0f;
-		glutPostRedisplay();
+		world.incrementCameraPositionRadius(5.0f);
 		break;
 	case 'E':
-		r -= 5.0f;
-		glutPostRedisplay();
+		world.incrementCameraPositionRadius(-5.0f);
 		break;
 	default:
 		break;
 	};
+	glutPostRedisplay();
 }
 
 int main(int argc, char** argv) {
@@ -173,14 +163,6 @@ int main(int argc, char** argv) {
     }
     
     world = convertToWorld(argv[1]);
-
-	float x = world.getCamera().getPosition().getX();
-	float y = world.getCamera().getPosition().getY();
-	float z = world.getCamera().getPosition().getZ();
-
-	r = sqrt(x*x + y*y + z*z);
-	theta = atan2(sqrt(x * x + y * y), z);
-	phi = atan2(y, x);
 
 	// GLUT init
 	glutInit(&argc, argv);

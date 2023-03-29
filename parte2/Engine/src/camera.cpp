@@ -1,4 +1,4 @@
-#include "Camera.hpp"
+#include "camera.hpp"
 
 Camera::Camera() : position(0.0f, 0.0f, 0.0f),
                    lookAt(0.0f, 0.0f, 0.0f),
@@ -7,23 +7,23 @@ Camera::Camera() : position(0.0f, 0.0f, 0.0f),
                    near(1.0f),
                    far(1000.0f) {}
 
-Camera::Camera(const Vector3 &p, const Vector3 &l, const Vector3 &u, float f, float n, float fa) : position(p),
+Camera::Camera(const Point &p, const Point &l, const Point &u, float f, float n, float fa) : position(p),
                                                                                                    lookAt(l),
                                                                                                    up(u),
                                                                                                    fov(f),
                                                                                                    near(n),
                                                                                                    far(fa) {}
 
-Vector3 Camera::getPosition() const
+Point Camera::getPosition() const
 {
     return position;
 }
 
-Vector3 Camera::getLookAt() const {
+Point Camera::getLookAt() const {
     return lookAt;
 }
 
-Vector3 Camera::getUp() const {
+Point Camera::getUp() const {
     return up;
 }
 
@@ -40,21 +40,15 @@ float Camera::getFar() const {
 }
 
 void Camera::setPosition(float x, float y, float z) {
-    position.setX(x);
-    position.setY(y);
-    position.setZ(z);
+    position = Point(x, y, z);
 }
 
 void Camera::setLookAt(float x, float y, float z) {
-    lookAt.setX(x);
-    lookAt.setY(y);
-    lookAt.setZ(z);
+    lookAt = Point(x, y, z);
 }
 
 void Camera::setUp(float x, float y, float z) {
-    up.setX(x);
-    up.setY(y);
-    up.setZ(z);
+    up = Point(x, y, z);
 }
 
 void Camera::setFov(float f) {
@@ -67,4 +61,16 @@ void Camera::setNear(float n) {
 
 void Camera::setFar(float f) {
     far = f;
+}
+
+void Camera::incrementPositionbetaAngle(float angle) {
+    position.incrementbeta(angle);
+}
+
+void Camera::incrementPositionalphaAngle(float angle) {
+    position.incrementalpha(angle);
+}
+
+void Camera::incrementPositionRadius(float radius) {
+    position.incrementRadius(radius);
 }

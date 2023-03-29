@@ -1,4 +1,4 @@
-#include "Model.hpp"
+#include "model.hpp"
 
 Model::Model(const std::string &path, const std::string &fileName) {
     this->file = fileName;
@@ -18,7 +18,7 @@ void Model::readVertices(const std::string& filePath) {
         std::istringstream in(m);
         float x, y, z;
         in >> x >> y >> z;
-        vertices.push_back(Vector3(x, y, z));
+        vertices.push_back(Point(x, y, z));
         in.clear();
     }
     modelfile.close();

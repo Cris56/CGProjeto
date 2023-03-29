@@ -1,7 +1,7 @@
 #ifndef TRANSFORM_HPP
 #define TRANSFORM_HPP
 
-#include "Vector3.hpp"
+#include "point.hpp"
 #include <vector>
 
 enum TransformType {
@@ -13,20 +13,20 @@ enum TransformType {
 class Transform {
 public:
     Transform();
-    Vector3 getTranslation() const;
-    Vector3 getRotation() const;
+    Point getTranslation() const;
+    Point getRotation() const;
     float getRotationAngle() const;
-    Vector3 getScale() const;
+    Point getScale() const;
     void setTranslation(float x, float y, float z);
     void setRotation(float x, float y, float z, float angle);
     void setScale(float x, float y, float z);
     std::vector<TransformType> getTransformationOrder() const;
     
 private:
-    Vector3 translationAxis;
-    Vector3 rotationAxis;
+    Point translationAxis;
+    Point rotationAxis;
     float rotationAngle;
-    Vector3 scaleAxis;
+    Point scaleAxis;
     std::vector<TransformType> transformationOrder;
 };
 
