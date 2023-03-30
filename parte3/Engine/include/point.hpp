@@ -1,6 +1,9 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
+#include <iostream>
+#include <cmath>
+
 class Point {
 
 public:

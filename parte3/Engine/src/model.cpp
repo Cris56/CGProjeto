@@ -1,6 +1,6 @@
 #include "model.hpp"
 
-Model::Model(const std::string &path, const std::string &fileName) {
+Model::Model(const std::string& path, const std::string& fileName) {
     this->file = fileName;
     std::string filePath = path + fileName;
     readVertices(filePath);
@@ -22,4 +22,21 @@ void Model::readVertices(const std::string& filePath) {
         in.clear();
     }
     modelfile.close();
+    prepareData();
+}
+
+const std::vector<Point>& Model::getVertices() const {
+    return vertices;
+}
+
+const std::vector<float> Model::getVBO() const {
+    return vbo;
+}
+
+void Model::prepareData() {
+    for (int i = 0; i < vertices.size(); i++) {
+        vbo.push_back(vertices[i].getX());
+        vbo.push_back(vertices[i].getY());
+        vbo.push_back(vertices[i].getZ());
+    }
 }

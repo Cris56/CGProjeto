@@ -10,7 +10,9 @@
                 "-fansi-escape-codes",
                 "-g",
                 "-I/opt/homebrew/include",
+                "-I/opt/homebrew/Cellar/glew/2.2.0_1/include",
                 "-I/System/Library/Frameworks/OpenGL.framework/Headers",
+                "-I/opt/homebrew/Cellar/devil/1.8.0_5/include/IL",
                 "-I${workspaceFolder}/include",
                 "${workspaceFolder}/src/model.cpp",
                 "${workspaceFolder}/src/transform.cpp",
@@ -25,6 +27,8 @@
                 "OpenGL",
                 "-framework",
                 "GLUT",
+                "-L/opt/homebrew/Cellar/glew/2.2.0_1/lib",
+                "-lglew",
                 "-o",
                 "${workspaceFolder}/build/engine",
                 "-Wno-deprecated-declarations"

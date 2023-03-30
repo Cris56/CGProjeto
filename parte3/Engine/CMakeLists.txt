@@ -55,14 +55,20 @@ if  (WIN32)
 else (WIN32) #Linux and Mac
 
     include_directories(/opt/homebrew/include)
+    include_directories(/opt/homebrew/Cellar/glew/2.2.0_1/include)
     set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} Wno-deprecated")
     find_package(GLUT REQUIRED)
     include_directories(${GLUT_INCLUDE_DIR})
     link_directories(${GLUT_LIBRARY_DIRS})
     add_definitions(${GLUT_DEFINITIONS})
+    find_package(GLEW 2.0 REQUIRED)
+    include_directories(${GLEW_INCLUDE_DIR})
+    link_directories(${GLEW_LIBRARY_DIRS})
+    add_definitions(${GLEW_DEFINITIONS})
 
     target_link_libraries(${PROJECT_NAME} "-F${CMAKE_OSX_SYSROOT}/System/Library/Frameworks" "-framework GLUT")
     target_link_libraries(${PROJECT_NAME} "-F${CMAKE_OSX_SYSROOT}/System/Library/Frameworks" "-framework OpenGL")
+    target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
 
     if(NOT GLUT_FOUND)
        message(ERROR ": GLUT not found!")

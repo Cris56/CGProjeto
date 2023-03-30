@@ -3,6 +3,7 @@
 
 #include "world.hpp"
 #include "pugixml.hpp"
+#include <iostream>
 
 using namespace pugi;
 

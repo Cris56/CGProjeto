@@ -1,5 +1,3 @@
-#include <iostream>
-#include <cmath>
 #include "point.hpp"
 
 // Constructor that receives x, y, and z

@@ -1,9 +1,11 @@
 #ifdef __APPLE__
 // Defined before OpenGL and GLUT includes to avoid deprecation messages
 #define GL_SILENCE_DEPRECATION
+#include <GL/glew.h>
 #include <GL/glut.h>
 
 #else
+#include <GL/glew.h>
 #include <GL/glut.h>
 #endif
 
@@ -11,8 +13,10 @@
 #include "xmlParser.hpp"
 #include <iostream>
 #include <math.h>
+#include <vector>
 
 World world;
+GLuint vertices, verticeCount;
 
 void drawModels();
 void changeSize(int w, int h);
@@ -87,45 +91,56 @@ void renderScene(void) {
 }
 
 void renderGroups(Group group) {
-	
-	Transform transform = group.getTransform();
-	std::vector<TransformType> transformOrder = transform.getTransformationOrder();
+    Transform transform = group.getTransform();
+    std::vector<TransformType> transformOrder = transform.getTransformationOrder();
 
-	for (size_t j = 0; j < transformOrder.size(); j++) {
-		TransformType type = transformOrder[j];
-		switch(type) {
-			case TRANSLATION:
-				glTranslatef(transform.getTranslation().getX(), transform.getTranslation().getY(), transform.getTranslation().getZ());
-				break;
-			case ROTATION:
-				glRotatef(transform.getRotationAngle(), transform.getRotation().getX(), transform.getRotation().getY(), transform.getRotation().getZ());
-				break;
-			case SCALING:
-				glScalef(transform.getScale().getX(), transform.getScale().getY(), transform.getScale().getZ());
-				break;
-		}
-	}
-	
-	glBegin(GL_TRIANGLES);
-	
-	for(size_t i = 0; i < group.models.size(); i++) {
-		Model model = group.models[i];
-		for(size_t j = 0; j < model.getVertices().size(); j++) {
-			Point vertices = model.getVertices()[j];
-			glVertex3f(vertices.getX(), vertices.getY(), vertices.getZ());
-		}
-	}
-	
-	glEnd();
+    for (size_t j = 0; j < transformOrder.size(); j++) {
+        TransformType type = transformOrder[j];
+        switch(type) {
+            case TRANSLATION:
+                glTranslatef(transform.getTranslation().getX(), transform.getTranslation().getY(), transform.getTranslation().getZ());
+                break;
+            case ROTATION:
+                glRotatef(transform.getRotationAngle(), transform.getRotation().getX(), transform.getRotation().getY(), transform.getRotation().getZ());
+                break;
+            case SCALING:
+                glScalef(transform.getScale().getX(), transform.getScale().getY(), transform.getScale().getZ());
+                break;
+        }
+    }
 
-	for (size_t i = 0; i < group.groups.size(); i++) {
-		Group childGroup = group.groups[i];
-		glPushMatrix();
-		renderGroups(childGroup);
-		glPopMatrix();
-	}
-	
+    // Generate and bind VBO
+    std::vector<float> p;
+    for(size_t i = 0; i < group.models.size(); i++) {
+        Model model = group.models[i];
+		p = model.getVBO();
+    }
+    verticeCount = p.size() / 3;
+
+    glGenBuffers(1, &vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, vertices);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * p.size(), p.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertices);
+    glVertexPointer(3, GL_FLOAT, 0, 0);
+
+    // Draw models
+    for(size_t i = 0; i < group.models.size(); i++) {
+        glDrawArrays(GL_TRIANGLES, i * verticeCount / group.models.size(), verticeCount / group.models.size());
+    }
+
+    // Recursively render child groups
+    for (size_t i = 0; i < group.groups.size(); i++) {
+        Group childGroup = group.groups[i];
+        glPushMatrix();
+        renderGroups(childGroup);
+        glPopMatrix();
+    }
+
+    // Unbind VBO
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
 
 // write function to process keyboard events
 void keyboard(unsigned char key, int x, int y) {
@@ -170,6 +185,15 @@ int main(int argc, char** argv) {
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(world.getWidth(), world.getHeight());
 	glutCreateWindow("CG@DI-UM Grupo 7");
+
+	// GLEW init
+	GLenum err = glewInit();
+	if (GLEW_OK != err) {
+		std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+		exit(1);
+	}
+
+	glEnableClientState(GL_VERTEX_ARRAY);
 
 	// callback registry
 	glutDisplayFunc(renderScene);

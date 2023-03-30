@@ -7,19 +7,21 @@
 #include <sstream>
 #include <stdexcept>
 #include "point.hpp"
+#include "GL/glew.h"
+#include "GL/gl.h"
 
 class Model {
 public:
-    Model(const std::string &path, const std::string &fileName);
-    void readVertices(const std::string& filePath);
-
-    const std::vector<Point>& getVertices() const {
-        return vertices;
-    }
+    Model(const std::string& path, const std::string& fileName);
+    const std::vector<Point>& getVertices() const;
+    const std::vector<float> getVBO() const;
 
 private:
+    void readVertices(const std::string& filePath);
+    void prepareData();
     std::string file;
     std::vector<Point> vertices;
+    std::vector<float> vbo;
 };
 
 #endif /* MODEL_HPP */
