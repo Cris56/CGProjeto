@@ -22,6 +22,7 @@ private:
     std::string file;
     std::vector<Point> vertices;
     std::vector<float> vbo;
+    std::vector<GLuint> vbos;
 };
 
 #endif /* MODEL_HPP */

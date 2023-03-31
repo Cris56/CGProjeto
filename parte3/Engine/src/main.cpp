@@ -21,7 +21,7 @@ GLuint vertices, verticeCount;
 void drawModels();
 void changeSize(int w, int h);
 void renderScene(void);
-void renderGroups(Group group);
+void renderGroups(const Group& group);
 void keyboard(unsigned char key, int x, int y);
 
 void drawModels() {
@@ -90,9 +90,9 @@ void renderScene(void) {
 	glutSwapBuffers();
 }
 
-void renderGroups(Group group) {
-    Transform transform = group.getTransform();
-    std::vector<TransformType> transformOrder = transform.getTransformationOrder();
+void renderGroups(const Group& group) {
+	const Transform& transform = group.getTransform();
+    const std::vector<TransformType>& transformOrder = transform.getTransformationOrder();
 
     for (size_t j = 0; j < transformOrder.size(); j++) {
         TransformType type = transformOrder[j];
@@ -112,8 +112,9 @@ void renderGroups(Group group) {
     // Generate and bind VBO
     std::vector<float> p;
     for(size_t i = 0; i < group.models.size(); i++) {
-        Model model = group.models[i];
-		p = model.getVBO();
+		const std::vector<float>& modelVBO = group.models[i].getVBO();
+		p.insert(p.end(), modelVBO.begin(), modelVBO.end());
+
     }
     verticeCount = p.size() / 3;
 
@@ -127,6 +128,7 @@ void renderGroups(Group group) {
     // Draw models
     for(size_t i = 0; i < group.models.size(); i++) {
         glDrawArrays(GL_TRIANGLES, i * verticeCount / group.models.size(), verticeCount / group.models.size());
+
     }
 
     // Recursively render child groups
@@ -139,6 +141,7 @@ void renderGroups(Group group) {
 
     // Unbind VBO
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glDeleteBuffers(1, &vertices);
 }
 
 
