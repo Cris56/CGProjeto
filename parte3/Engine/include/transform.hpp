@@ -15,19 +15,28 @@ public:
     Transform();
     Point getTranslation() const;
     Point getRotation() const;
-    float getRotationAngle() const;
+    float getTimeForRotation() const;
     Point getScale() const;
+    float getTime() const;
+    bool getIsAligned() const;
+    std::vector<Point> getTranslationPoints() const;
+    std::vector<TransformType> getTransformationOrder() const;
     void setTranslation(float x, float y, float z);
     void setRotation(float x, float y, float z, float angle);
     void setScale(float x, float y, float z);
-    std::vector<TransformType> getTransformationOrder() const;
+    void setTime(float time);
+    void setIsAligned(bool isAligned);
+    void addTranslationPoint(float x, float y, float z);
     
 private:
     Point translationAxis;
     Point rotationAxis;
-    float rotationAngle;
+    float timeForRotation;
     Point scaleAxis;
+    float time;
+    bool isAligned;
     std::vector<TransformType> transformationOrder;
+    std::vector<Point> translationPoints;
 };
 
 #endif // TRANSFORM_HPP

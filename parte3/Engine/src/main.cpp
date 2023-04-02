@@ -101,7 +101,7 @@ void renderGroups(const Group& group) {
                 glTranslatef(transform.getTranslation().getX(), transform.getTranslation().getY(), transform.getTranslation().getZ());
                 break;
             case ROTATION:
-                glRotatef(transform.getRotationAngle(), transform.getRotation().getX(), transform.getRotation().getY(), transform.getRotation().getZ());
+                glRotatef(transform.getTimeForRotation(), transform.getRotation().getX(), transform.getRotation().getY(), transform.getRotation().getZ());
                 break;
             case SCALING:
                 glScalef(transform.getScale().getX(), transform.getScale().getY(), transform.getScale().getZ());

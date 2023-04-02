@@ -10,7 +10,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/engine",
-            "args": ["solarSystem.xml"],
+            "args": ["test_3_1.xml"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

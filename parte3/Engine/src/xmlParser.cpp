@@ -56,9 +56,30 @@ Group convertGroup(xml_node group_node) {
 
             for(xml_node transform_node = child.first_child(); transform_node; transform_node = transform_node.next_sibling()) {
                 if (std::string(transform_node.name()) == "translate") {
-                    transform.setTranslation(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float());
+                    // Check if any "point" elements are present
+                    xml_node point_node = transform_node.child("point");
+                    if (point_node) {
+                        std::vector<Point> points;
+                        for (; point_node; point_node = point_node.next_sibling("point")) {
+                            float x = point_node.attribute("x").as_float();
+                            float y = point_node.attribute("y").as_float();
+                            float z = point_node.attribute("z").as_float();
+                            transform.addTranslationPoint(x, y, z);
+                        }
+                        transform.setTime(transform_node.attribute("time").as_float());
+                        transform.setIsAligned(transform_node.attribute("align").as_bool());
+
+                    } else {
+                        // Otherwise, set the translation using the "x", "y", and "z" attributes
+                        transform.setTranslation(transform_node.attribute("x").as_float(),
+                                                transform_node.attribute("y").as_float(),
+                                                transform_node.attribute("z").as_float());
+                    }
+                    group.setTransform(transform);
+
                 } else if (std::string(transform_node.name()) == "rotate") {
-                    transform.setRotation(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float(), transform_node.attribute("angle").as_float());
+                    transform.setRotation(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float(), transform_node.attribute("time").as_float());
+
                 } else if (std::string(transform_node.name()) == "scale") {
                     transform.setScale(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float());
                 }
