@@ -1,0 +1,103 @@
+<world>
+    <window width="512" height="512" />
+    <camera> 
+	    <position x="800" y="10" z="800" />
+	    <lookAt x="300" y="0" z="0" />
+	    <up x="0" y="1" z="0" />
+            <projection fov="60" near="1" far="1000" />
+    </camera>
+    <group>
+        <transform> 
+		    <scale x="0.5" y="0.5" z="0.5" />
+        </transform>
+		<group> <!-- sol-->
+			<transform> 
+		    		<scale x="202.02" y="202.02" z="202.02" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+		</group>
+		<group> <!-- mercurio-->
+			<transform>
+				<translate x="350" y="0" z="0" />
+				<scale x="0.71" y="0.71" z="0.71" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+		</group>
+		<group> <!-- venus-->
+			<transform>
+				<translate x="410" y="0" z="0" />
+				<scale x="1.68" y="1.68" z="1.68" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+		</group>
+		<group> <!-- terra-->
+			<transform>
+				<translate x="470" y="0" z="0" />
+				<scale x="1.85" y="1.85" z="1.85" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+				<group> <!-- lua-->
+					<transform>
+						<translate x="4" y="0" z="0" />
+						<scale x="0.14" y="0.14" z="0.14" />
+					</transform>
+					<models>
+						<model file="sphere_1_10_10.3d" />
+					</models>
+				</group>
+		</group>
+		<group> <!-- marte-->
+			<transform>
+				<translate x="530" y="0" z="0" />
+				<scale x="0.97" y="0.97" z="0.97" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+		</group>
+		<group> <!-- jupiter-->
+			<transform>
+				<translate x="700" y="0" z="0" />
+				<scale x="20.35" y="20.35" z="20.35" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+		</group>
+		<group> <!-- saturno-->
+			<transform>
+				<translate x="850" y="0" z="0" />
+				<scale x="16.835" y="16.835" z="16.835" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+		</group>
+		<group> <!-- urano-->
+			<transform>
+				<translate x="1010" y="0" z="0" />
+				<scale x="7.4" y="7.4" z="7.4" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+		</group>
+		<group> <!-- neptuno-->
+			<transform>
+				<translate x="1110" y="0" z="0" />
+				<scale x="7.215" y="7.215" z="7.215" />
+			</transform>
+			<models>
+				<model file="sphere_1_10_10.3d" />
+			</models>
+		</group>
+    </group>
+</world>
