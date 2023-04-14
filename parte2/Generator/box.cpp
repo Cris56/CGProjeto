@@ -59,7 +59,7 @@ void genBox(float length, int div, float* v) {
             v[j + 2] = vBox[i + 1].ponto[2];
             j += 3;
         }
-        else if (((i + 1) % (n + 1) == 0) && (i+n+1<=numvface)) {
+        else if (((i + 1) % (n + 1) == 0) && (i+n+1<numvface)) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
             v[j + 2] = vBox[i].ponto[2];
@@ -76,7 +76,7 @@ void genBox(float length, int div, float* v) {
     }
 
     // tras
-    for (i = numvface-1; i < 2*numvface - (n + 1); i++) {
+    for (i = numvface; i < 2*numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
@@ -106,7 +106,7 @@ void genBox(float length, int div, float* v) {
     }
 
     // esquerda
-    for (i = 2*numvface-1; i < 3 * numvface - (n + 1); i++) {
+    for (i = 2*numvface; i < 3 * numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
@@ -136,7 +136,7 @@ void genBox(float length, int div, float* v) {
     }
     
     //direita
-    for (i = 3*numvface-1; i < 4 * numvface - (n+1); i++) {
+    for (i = 3*numvface; i < 4 * numvface - (n+1); i++) {
         if (((i + 1) % (n + 1) != 0) && (i % (n + 1) != 0)) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
@@ -178,7 +178,7 @@ void genBox(float length, int div, float* v) {
             v[j + 2] = vBox[i + n + 1].ponto[2];
             j += 3;
         }
-        else if (((i + 1) % (n + 1) == 0) && (i + n + 1 <= 4 * numvface)) {
+        else if (((i + 1) % (n + 1) == 0) && (i + n + 1 < 4 * numvface)) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
             v[j + 2] = vBox[i].ponto[2];
@@ -195,7 +195,7 @@ void genBox(float length, int div, float* v) {
     }
 
     //baixo
-    for (i = 4 * numvface-1; i < 5 * numvface - (n + 1); i++) {
+    for (i = 4 * numvface; i < 5 * numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
@@ -226,7 +226,7 @@ void genBox(float length, int div, float* v) {
     }
 
     //cima 
-    for (i = 5 * numvface-1; i < 6 * numvface - (n + 1); i++) {
+    for (i = 5 * numvface; i < 6 * numvface - (n + 1); i++) {
         if (((i+1) % (n+1) != 0) && (i%(n+1) != 0)) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
@@ -254,7 +254,7 @@ void genBox(float length, int div, float* v) {
             v[j + 2] = vBox[i + n + 1].ponto[2];
             j += 3;
         }
-        else if ((i%(n+1) == 0) && (i+n+1<= 6 * numvface)) {
+        else if ((i%(n+1) == 0) && (i+n+1< 6 * numvface)) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
             v[j + 2] = vBox[i].ponto[2];
@@ -268,7 +268,7 @@ void genBox(float length, int div, float* v) {
             v[j + 2] = vBox[i + 1].ponto[2];
             j += 3;
         }
-        else if (((i + 1) % (n + 1) == 0) && (i+n+1<=6*numvface)) {
+        else if (((i + 1) % (n + 1) == 0) && (i+n+1<6*numvface)) {
             v[j] = vBox[i].ponto[0];
             v[j + 1] = vBox[i].ponto[1];
             v[j + 2] = vBox[i].ponto[2];
