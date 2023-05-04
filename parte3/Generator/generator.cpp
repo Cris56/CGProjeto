@@ -58,12 +58,20 @@ int main(int argc, char** argv) {
             throw invalid_argument("Invalid number of arguments");
         }
 
-        const string obj = argv[1];
-        const float a1 = atof(argv[2]);
-        const int a2 = atoi(argv[3]);
-        const char* fd = argv[argc - 1];
-
         vector<float> vertices;
+        const string obj = argv[1];
+        const char* fd = argv[argc - 1];
+        const int a2 = atoi(argv[3]);
+
+        if (!strcmp(obj.c_str(), "patch") && argc == 5) {
+            const char* patchfile = argv[2];
+            readPatch(patchfile);
+            const int numvb = numvtBezier(a2);
+            vertices.resize(numvb * 3);
+            genBezier(vertices.data());
+        }
+
+        const float a1 = atof(argv[2]);
 
         if (!strcmp(obj.c_str(), "sphere") && argc == 6) {
             const int a3 = atoi(argv[4]);

@@ -16,4 +16,6 @@ add_executable(Generator
         plane.hpp
         sphere.cpp
         sphere.hpp
-        geometry.hpp)
+        geometry.hpp
+	bezier.cpp
+	bezier.hpp)
