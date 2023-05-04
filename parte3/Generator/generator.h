@@ -5,6 +5,7 @@
 #include "box.hpp"
 #include "cone.hpp"
 #include "sphere.hpp"
+#include "bezier.hpp"
 
 #include <iostream>
 #include <fstream>
