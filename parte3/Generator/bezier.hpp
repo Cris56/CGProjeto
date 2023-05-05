@@ -9,11 +9,11 @@
 #include <sstream>
 using namespace std;
 
-struct pontos { float ponto[3]; } ;
+struct ponto { float ponto[3]; };
 
 void genBezier(float* v);
 void verticesBezier();
 void readPatch(const char* filename);
 int numvtBezier(int tess);
-void curvePoints(pontos* points, pontos* v, int patch);
+void curvePoints(ponto* points, ponto* v, int patch, int numcp, int curvas);
 float castjau(float* points, float ratio, int nump);

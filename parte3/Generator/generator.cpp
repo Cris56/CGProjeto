@@ -97,6 +97,7 @@ int main(int argc, char** argv) {
             vertices.resize(numvt * 3);
             genPlane(a1, a2, vertices.data());
         }
+        else if (!strcmp(obj.c_str(), "patch") && argc == 5) {}
         else {
             throw invalid_argument("Invalid object or corresponding parameters.");
         }
