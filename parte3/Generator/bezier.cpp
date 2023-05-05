@@ -61,7 +61,7 @@ void verticesBezier() {
 			int indice = b.patchindex[i][a];
 			cpoints[a] = b.controlp[indice];
 		}
-		int numcont2 = (b.tess+1) * 4;
+		int numcont2 = b.tess * 4;
 		vector<ponto> control2;
 		control2.resize(numcont2);
 		curvePoints(cpoints.data(), control2.data(), 0, 16, 4);
@@ -152,7 +152,7 @@ void curvePoints(ponto* points, ponto* v, int patch, int numcp, int curvas) {
 			ylist[l] = points[j+l].ponto[1];
 			zlist[l] = points[j+l].ponto[2];
 		}
-		for (int m = 0; m < b.tess+1; m++) {
+		for (int m = 0; m < b.tess; m++) {
 			float x = castjau(xlist, rdiff, 4);
 			float y = castjau(ylist, rdiff, 4);
 			float z = castjau(zlist, rdiff, 4);
