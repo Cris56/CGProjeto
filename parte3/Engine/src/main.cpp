@@ -14,6 +14,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include "Curva_CATMR_H.hpp"
 
 World world;
 GLuint vertices, verticeCount;
@@ -99,13 +100,16 @@ void renderGroups(const Group& group) {
         switch(type) {
             case TRANSLATION:
                 glTranslatef(transform.getTranslation().getX(), transform.getTranslation().getY(), transform.getTranslation().getZ());
-                break;
+				break;
             case ROTATION:
                 glRotatef(transform.getTimeForRotation(), transform.getRotation().getX(), transform.getRotation().getY(), transform.getRotation().getZ());
                 break;
             case SCALING:
                 glScalef(transform.getScale().getX(), transform.getScale().getY(), transform.getScale().getZ());
                 break;
+			case CURVE:
+				drawTranslation(transform.getcurvepoints(),transform.getTime());
+				break;
         }
     }
 
@@ -172,6 +176,65 @@ void keyboard(unsigned char key, int x, int y) {
 	};
 	glutPostRedisplay();
 }
+
+
+
+
+void getCurvePoint(std::vector<Point> c, float tt, float* pos, float* deriv) {
+		int conta = c.size();
+		
+		float t = tt * conta;
+		int index = static_cast<int>(floor(t));
+		t = t - index;
+
+
+		int indices[4];
+		indices[0] = (index + conta - 1) % conta;
+		indices[1] = (indices[0] + 1) % conta;
+		indices[2] = (indices[1] + 1) % conta;
+		indices[3] = (indices[2] + 1) % conta;
+
+		float p[4][3];
+		for (int i = 0; i < 4; i++) {
+			p[i][0] = c.at(indices[i]).getX();
+			p[i][1] = c.at(indices[i]).getY();
+			p[i][2] = c.at(indices[i]).getZ();
+			//printf("aqui x z %f %f\n", (trans->pontos->at(indices[i]))->x, (trans->pontos->at(indices[i]))->z);
+		}
+		CMRPoint(t, p[0], p[1], p[2], p[3], pos, deriv);
+	}
+
+
+
+
+void drawTranslation(std::vector<Point> t,int timestp) {
+		float pos[3];
+		float deriv[3];
+
+		float scaledT = glutGet(GLUT_ELAPSED_TIME) / timestp;
+		float tmp2 = 5.0f;
+		float tmp1 = glutGet(GLUT_ELAPSED_TIME) / tmp2;
+
+		getCurvePoint(t, scaledT, (float*)pos, (float*)deriv);
+		glTranslatef(pos[0], pos[1], pos[2]);
+		normaliza((float*)deriv);
+		Point p = Point(0,1,0);
+		float z[3];
+		ProdVet((float*)deriv,reinterpret_cast<float*>(&p),(float*)z);
+		normaliza((float*)z);
+	
+		ProdVet((float*)z, (float*)deriv, reinterpret_cast<float*>(&p));
+		normaliza(reinterpret_cast<float*>(&p));
+
+		float rotateMatrix[4][4];
+		makeMatrix((float*)deriv, reinterpret_cast<float*>(&p), (float*)z, (float*)rotateMatrix);
+
+		glMultMatrixf((float*)rotateMatrix);
+
+	}
+
+
+
 
 int main(int argc, char** argv) {
 
