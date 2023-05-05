@@ -2,7 +2,7 @@
 #include "Curva_CATMR_H.hpp"
 #include <stdio.h>
 
-void mkMatrix(float* x, float* y, float* z, float* m) {
+void makeMatrix(float* x, float* y, float* z, float* m) {
 
 	m[0] = x[0]; m[1] = x[1]; m[2] = x[2]; m[3] = 0;
 	m[4] = y[0]; m[5] = y[1]; m[6] = y[2]; m[7] = 0;
@@ -11,7 +11,7 @@ void mkMatrix(float* x, float* y, float* z, float* m) {
 }
 
 
-void cross(float* a, float* b, float* res) {
+void ProdVet(float* a, float* b, float* res) {
 
 	res[0] = a[1] * b[2] - a[2] * b[1];
 	res[1] = a[2] * b[0] - a[0] * b[2];
@@ -39,7 +39,7 @@ void multMatrixVector(const float* m, const float* v, float* res) {
 
 }
 
-void getCMRPoint(float t, float* p0, float* p1, float* p2, float* p3, float* pos, float* deriv) {
+void CMRPoint(float t, float* p0, float* p1, float* p2, float* p3, float* pos, float* deriv) {
 	float m[4][4] = { {-0.5f, 1.5f,-1.5f, 0.5f},
 					  { 1.0f,-2.5f, 2.0f,-0.5f},
 					  {-0.5f, 0.0f, 0.5f, 0.0f},
@@ -54,7 +54,7 @@ void getCMRPoint(float t, float* p0, float* p1, float* p2, float* p3, float* pos
 		p[i][3] = p3[i];
 	}
 
-	// compute A = M * P
+	//  A = M * P
 	multMatrixVector((float*)m, p[0], a[0]);
 	multMatrixVector((float*)m, p[1], a[1]);
 	multMatrixVector((float*)m, p[2], a[2]);
