@@ -64,8 +64,10 @@ Group convertGroup(xml_node group_node) {
                             float x = point_node.attribute("x").as_float();
                             float y = point_node.attribute("y").as_float();
                             float z = point_node.attribute("z").as_float();
-                            transform.addTranslationPoint(x, y, z);
+                            Point p = Point(x,y,z);
+                            points.push_back(p);
                         }
+                        transform.setcurvepoints(points);
                         transform.setTime(transform_node.attribute("time").as_float());
                         transform.setIsAligned(transform_node.attribute("align").as_bool());
 
