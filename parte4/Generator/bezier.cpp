@@ -1,12 +1,12 @@
 #include "bezier.hpp"
 
-vector<ponto> vBezier;
+vector<Point> vBezier;
 
 struct bezier {
 	int numpatches = 1;
 	vector<vector<int>> patchindex;
 	int numcontrol = 4;
-	vector<ponto> controlp;
+	vector<Point> controlp;
 	int numv = 4;
 	int tess = 4;
 };
@@ -23,29 +23,29 @@ void genBezier(float* v) {
 		for (i = 0; i < b.numv - (n + 1); i++) {
 			int indexvB = b.numv * (p-1);
 			if ((i + 1) % (n + 1) != 0) {
-				v[j] = vBezier[indexvB + i].ponto[0];
-				v[j + 1] = vBezier[indexvB + i].ponto[1];
-				v[j + 2] = vBezier[indexvB + i].ponto[2];
+				v[j] = vBezier[indexvB + i].x;
+				v[j + 1] = vBezier[indexvB + i].y;
+				v[j + 2] = vBezier[indexvB + i].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i + 1].ponto[0];
-				v[j + 1] = vBezier[indexvB + i + 1].ponto[1];
-				v[j + 2] = vBezier[indexvB + i + 1].ponto[2];
+				v[j] = vBezier[indexvB + i + 1].x;
+				v[j + 1] = vBezier[indexvB + i + 1].y;
+				v[j + 2] = vBezier[indexvB + i + 1].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i + n + 2].ponto[0];
-				v[j + 1] = vBezier[indexvB + i + n + 2].ponto[1];
-				v[j + 2] = vBezier[indexvB + i + n + 2].ponto[2];
+				v[j] = vBezier[indexvB + i + n + 2].x;
+				v[j + 1] = vBezier[indexvB + i + n + 2].y;
+				v[j + 2] = vBezier[indexvB + i + n + 2].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i].ponto[0];
-				v[j + 1] = vBezier[indexvB + i].ponto[1];
-				v[j + 2] = vBezier[indexvB + i].ponto[2];
+				v[j] = vBezier[indexvB + i].x;
+				v[j + 1] = vBezier[indexvB + i].y;
+				v[j + 2] = vBezier[indexvB + i].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i + n + 2].ponto[0];
-				v[j + 1] = vBezier[indexvB + i + n + 2].ponto[1];
-				v[j + 2] = vBezier[indexvB + i + n + 2].ponto[2];
+				v[j] = vBezier[indexvB + i + n + 2].x;
+				v[j + 1] = vBezier[indexvB + i + n + 2].y;
+				v[j + 2] = vBezier[indexvB + i + n + 2].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i + n + 1].ponto[0];
-				v[j + 1] = vBezier[indexvB + i + n + 1].ponto[1];
-				v[j + 2] = vBezier[indexvB + i + n + 1].ponto[2];
+				v[j] = vBezier[indexvB + i + n + 1].x;
+				v[j + 1] = vBezier[indexvB + i + n + 1].y;
+				v[j + 2] = vBezier[indexvB + i + n + 1].z;
 				j += 3;
 			}
 		}
@@ -55,7 +55,7 @@ void genBezier(float* v) {
 void verticesBezier() {
 	int n = b.numpatches;
 	for (int i = 0; i < n; i++) {
-		vector<ponto> cpoints;
+		vector<Point> cpoints;
 		cpoints.resize(16);
 		for (int a = 0; a < 16; a++) {
 			int indice = b.patchindex[i][a];
@@ -66,7 +66,7 @@ void verticesBezier() {
 }
 
 void readPatch(const char* filename) {
-	string filepath = "../../data/" + string(filename);
+	string filepath = /*"../../data/" + */string(filename);
 	ifstream patch(filepath);
 	if (!patch) {
 		throw std::runtime_error("Error opening file: " + filepath);
@@ -100,7 +100,15 @@ void readPatch(const char* filename) {
 		istringstream p(line);
 		string coordenada;
 		for (int j = 0; std::getline(p, coordenada, ','); j++) {
-			b.controlp[a].ponto[j] = stof(coordenada);
+			if (j == 0) {
+				b.controlp[a].x = stof(coordenada);
+			}
+			else if (j == 1) {
+				b.controlp[a].y = stof(coordenada);
+			}
+			else if (j == 2) {
+				b.controlp[a].z = stof(coordenada);
+			}
 		}
 		
 		p.clear();
@@ -135,15 +143,15 @@ float castjau(float* points, float ratio, int nump) {
 	}
 }
 
-void curvePoints(ponto* points, ponto* v, int patch) {
+void curvePoints(Point* points, Point* v, int patch) {
 	int tess = b.tess;
 	float r = 1.0f / tess;
 	int index = patch*(tess+1)*(tess+1);
 
-	vector<ponto> ci1; ci1.resize(4);
-	vector<ponto> ci2; ci2.resize(4);
-	vector<ponto> ci3; ci3.resize(4);
-	vector<ponto> ci4; ci4.resize(4);
+	vector<Point> ci1; ci1.resize(4);
+	vector<Point> ci2; ci2.resize(4);
+	vector<Point> ci3; ci3.resize(4);
+	vector<Point> ci4; ci4.resize(4);
 	
 	for (int i = 0; i < 4; i++) {
 		ci1[i] = points[i];
@@ -152,88 +160,88 @@ void curvePoints(ponto* points, ponto* v, int patch) {
 		ci4[i] = points[i + 12];
 	}
 
-	vector<ponto> cm1; cm1.resize(tess + 1);
+	vector<Point> cm1; cm1.resize(tess + 1);
 	cm1[0] = ci1[0]; cm1[tess] = ci1[3];
-	vector<ponto> cm2; cm2.resize(tess + 1);
+	vector<Point> cm2; cm2.resize(tess + 1);
 	cm2[0] = ci2[0]; cm2[tess] = ci2[3];
-	vector<ponto> cm3; cm3.resize(tess + 1);
+	vector<Point> cm3; cm3.resize(tess + 1);
 	cm3[0] = ci3[0]; cm3[tess] = ci3[3];
-	vector<ponto> cm4; cm4.resize(tess + 1);
+	vector<Point> cm4; cm4.resize(tess + 1);
 	cm4[0] = ci4[0]; cm4[tess] = ci4[3];
 
 	for (int j = 1; j < tess; j++) {
-		ponto p1, p2, p3, p4;
+		Point p1, p2, p3, p4;
 		float xlist1[4]; float ylist1[4]; float zlist1[4];
 		float xlist2[4]; float ylist2[4]; float zlist2[4];
 		float xlist3[4]; float ylist3[4]; float zlist3[4];
 		float xlist4[4]; float ylist4[4]; float zlist4[4];
 
 		for (int k = 0; k < 4; k++) {
-			xlist1[k] = ci1[k].ponto[0];
-			ylist1[k] = ci1[k].ponto[1];
-			zlist1[k] = ci1[k].ponto[2];
+			xlist1[k] = ci1[k].x;
+			ylist1[k] = ci1[k].y;
+			zlist1[k] = ci1[k].z;
 
-			xlist2[k] = ci2[k].ponto[0];
-			ylist2[k] = ci2[k].ponto[1];
-			zlist2[k] = ci2[k].ponto[2];
+			xlist2[k] = ci2[k].x;
+			ylist2[k] = ci2[k].y;
+			zlist2[k] = ci2[k].z;
 
-			xlist3[k] = ci3[k].ponto[0];
-			ylist3[k] = ci3[k].ponto[1];
-			zlist3[k] = ci3[k].ponto[2];
+			xlist3[k] = ci3[k].x;
+			ylist3[k] = ci3[k].y;
+			zlist3[k] = ci3[k].z;
 
-			xlist4[k] = ci4[k].ponto[0];
-			ylist4[k] = ci4[k].ponto[1];
-			zlist4[k] = ci4[k].ponto[2];
+			xlist4[k] = ci4[k].x;
+			ylist4[k] = ci4[k].y;
+			zlist4[k] = ci4[k].z;
 		}
 
-		float x1 = castjau(xlist1, r * j, 4); p1.ponto[0] = x1;
-		float x2 = castjau(xlist2, r * j, 4); p2.ponto[0] = x2;
-		float x3 = castjau(xlist3, r * j, 4); p3.ponto[0] = x3;
-		float x4 = castjau(xlist4, r * j, 4); p4.ponto[0] = x4;
+		float x1 = castjau(xlist1, r * j, 4); p1.x = x1;
+		float x2 = castjau(xlist2, r * j, 4); p2.x = x2;
+		float x3 = castjau(xlist3, r * j, 4); p3.x = x3;
+		float x4 = castjau(xlist4, r * j, 4); p4.x = x4;
 
-		float y1 = castjau(ylist1, r * j, 4); p1.ponto[1] = y1;
-		float y2 = castjau(ylist2, r * j, 4); p2.ponto[1] = y2;
-		float y3 = castjau(ylist3, r * j, 4); p3.ponto[1] = y3;
-		float y4 = castjau(ylist4, r * j, 4); p4.ponto[1] = y4;
+		float y1 = castjau(ylist1, r * j, 4); p1.y = y1;
+		float y2 = castjau(ylist2, r * j, 4); p2.y = y2;
+		float y3 = castjau(ylist3, r * j, 4); p3.y = y3;
+		float y4 = castjau(ylist4, r * j, 4); p4.y = y4;
 
-		float z1 = castjau(zlist1, r * j, 4); p1.ponto[2] = z1;
-		float z2 = castjau(zlist2, r * j, 4); p2.ponto[2] = z2;
-		float z3 = castjau(zlist3, r * j, 4); p3.ponto[2] = z3;
-		float z4 = castjau(zlist4, r * j, 4); p4.ponto[2] = z4;
+		float z1 = castjau(zlist1, r * j, 4); p1.z = z1;
+		float z2 = castjau(zlist2, r * j, 4); p2.z = z2;
+		float z3 = castjau(zlist3, r * j, 4); p3.z = z3;
+		float z4 = castjau(zlist4, r * j, 4); p4.z = z4;
 
 		cm1[j] = p1; cm2[j] = p2; cm3[j] = p3; cm4[j] = p4;
 	}
 
 	for (int l = 0; l < tess + 1; l++) {
-		vector<ponto> curva;
+		vector<Point> curva;
 		curva.resize(tess + 1);
 		curva[0] = cm1[l];
 		curva[tess] = cm4[l];
 
 		float xlist[4]; float ylist[4]; float zlist[4];
 
-		xlist[0] = cm1[l].ponto[0];
-		xlist[1] = cm2[l].ponto[0];
-		xlist[2] = cm3[l].ponto[0];
-		xlist[3] = cm4[l].ponto[0];
+		xlist[0] = cm1[l].x;
+		xlist[1] = cm2[l].x;
+		xlist[2] = cm3[l].x;
+		xlist[3] = cm4[l].x;
 
-		ylist[0] = cm1[l].ponto[1];
-		ylist[1] = cm2[l].ponto[1];
-		ylist[2] = cm3[l].ponto[1];
-		ylist[3] = cm4[l].ponto[1];
+		ylist[0] = cm1[l].y;
+		ylist[1] = cm2[l].y;
+		ylist[2] = cm3[l].y;
+		ylist[3] = cm4[l].y;
 
-		zlist[0] = cm1[l].ponto[2];
-		zlist[1] = cm2[l].ponto[2];
-		zlist[2] = cm3[l].ponto[2];
-		zlist[3] = cm4[l].ponto[2];
+		zlist[0] = cm1[l].z;
+		zlist[1] = cm2[l].z;
+		zlist[2] = cm3[l].z;
+		zlist[3] = cm4[l].z;
 
 		for (int m = 1; m < tess; m++) {
-			ponto p;
+			Point p;
 			float x = castjau(xlist, r * m, 4);
 			float y = castjau(ylist, r * m, 4);
 			float z = castjau(zlist, r * m, 4);
 
-			p.ponto[0] = x; p.ponto[1] = y; p.ponto[2] = z;
+			p.x = x; p.y = y; p.z = z;
 			curva[m] = p;
 		}
 

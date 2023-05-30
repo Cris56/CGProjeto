@@ -18,4 +18,8 @@ add_executable(Generator
         sphere.hpp
         geometry.hpp
 	bezier.cpp
-	bezier.hpp)
+	bezier.hpp
+	textures.cpp
+	textures.hpp
+	normals.cpp
+	normals.hpp)
