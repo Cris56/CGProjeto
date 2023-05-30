@@ -7,13 +7,12 @@
 #include <cstdlib>
 #include <vector>
 #include <sstream>
+#include "geometry.hpp"
 using namespace std;
-
-struct ponto { float ponto[3]; };
 
 void genBezier(float* v);
 void verticesBezier();
 void readPatch(const char* filename);
 int numvtBezier(int tess);
 float castjau(float* points, float ratio, int nump);
-void curvePoints(ponto* points, ponto* v, int patch);
+void curvePoints(Point* points, Point* v, int patch);
