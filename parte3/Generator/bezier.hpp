@@ -15,5 +15,5 @@ void genBezier(float* v);
 void verticesBezier();
 void readPatch(const char* filename);
 int numvtBezier(int tess);
-void curvePoints(ponto* points, ponto* v, int patch, int numcp, int curvas);
 float castjau(float* points, float ratio, int nump);
+void curvePoints(ponto* points, ponto* v, int patch);
