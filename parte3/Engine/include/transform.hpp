@@ -2,7 +2,11 @@
 #define TRANSFORM_HPP
 
 #include "point.hpp"
+#include "Curva_CATMR_H.hpp"
 #include <vector>
+
+#include <GL/glew.h>
+#include <GL/glut.h>
 
 enum TransformType {
     TRANSLATION,
@@ -21,6 +25,8 @@ public:
     bool getIsAligned() const;
     std::vector<Point> getTranslationPoints() const;
     std::vector<TransformType> getTransformationOrder() const;
+    void getCurvePoint(std::vector<Point> c, float tt, float* pos, float* deriv);
+    void drawTranslation(const std::vector<Point>& t, int timestp);
     void setTranslation(float x, float y, float z);
     void setRotation(float x, float y, float z, float angle);
     void setScale(float x, float y, float z);
