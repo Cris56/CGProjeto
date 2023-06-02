@@ -1,6 +1,6 @@
 #ifndef POINT_HPP
 #define POINT_HPP
-
+#define _USE_MATH_DEFINES
 #include <iostream>
 #include <cmath>
 

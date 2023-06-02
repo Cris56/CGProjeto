@@ -59,15 +59,12 @@ Group convertGroup(xml_node group_node) {
                     // Check if any "point" elements are present
                     xml_node point_node = transform_node.child("point");
                     if (point_node) {
-                        std::vector<Point> points;
                         for (; point_node; point_node = point_node.next_sibling("point")) {
                             float x = point_node.attribute("x").as_float();
                             float y = point_node.attribute("y").as_float();
                             float z = point_node.attribute("z").as_float();
-                            Point p = Point(x,y,z);
-                            points.push_back(p);
+                            transform.addTranslationPoint(x, y, z);
                         }
-                        transform.setcurvepoints(points);
                         transform.setTime(transform_node.attribute("time").as_float());
                         transform.setIsAligned(transform_node.attribute("align").as_bool());
 
