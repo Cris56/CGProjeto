@@ -19,7 +19,7 @@ void genBezier(float* v) {
 	int j = 0;
 	int i = 0;
 	int n = b.tess;
-	for (int p = 1; p < b.numpatches; p++) {
+	for (int p = 1; p < b.numpatches + 1; p++) {
 		for (i = 0; i < b.numv - (n + 1); i++) {
 			int indexvB = b.numv * (p-1);
 			if ((i + 1) % (n + 1) != 0) {
@@ -124,7 +124,7 @@ void readPatch(const char* filename) {
 int numvtBezier(int tess) {
 	b.numv = (tess + 1) * (tess + 1);
 	b.tess = tess;
-	return tess * tess * 2 * 3 * (b.numpatches-1);
+	return tess * tess * 2 * 3 * (b.numpatches);
 }
 
 // adaptado de https: //pomax.github.io/bezierinfo/#decasteljau

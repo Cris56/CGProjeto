@@ -6,6 +6,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <vector>
+#include "geometry.hpp"
 using namespace std;
 
 void genBox(float length, int div, float* v); 
