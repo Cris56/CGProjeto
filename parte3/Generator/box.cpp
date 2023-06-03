@@ -1,8 +1,7 @@
 
 #include "box.hpp"
 
-struct ponto { float ponto[3]; };
-vector<ponto> vBox;
+vector<Point> vBox;
 
 void genBox(float length, int div, float* v) {
     
@@ -19,58 +18,58 @@ void genBox(float length, int div, float* v) {
     // frente
     for (i = 0; i < numvface - (n + 1); i++) {
         if (((i+1) % (n+1) != 0) && (i%(n+1) != 0)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n].ponto[0];
-            v[j + 1] = vBox[i + n].ponto[1];
-            v[j + 2] = vBox[i + n].ponto[2];
+            v[j] = vBox[i + n].x;
+            v[j + 1] = vBox[i + n].y;
+            v[j + 2] = vBox[i + n].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
 
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i + 1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
         }
         else if ((i%(n+1)) == 0 && (i+n+1<numvface)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i + 1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
         }
         else if (((i + 1) % (n + 1) == 0) && (i+n+1<=numvface)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n].ponto[0];
-            v[j + 1] = vBox[i + n].ponto[1];
-            v[j + 2] = vBox[i + n].ponto[2];
+            v[j] = vBox[i + n].x;
+            v[j + 1] = vBox[i + n].y;
+            v[j + 2] = vBox[i + n].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
         }
     }
@@ -78,29 +77,29 @@ void genBox(float length, int div, float* v) {
     // tras
     for (i = numvface-1; i < 2*numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i + 1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 2].ponto[0];
-            v[j + 1] = vBox[i + n + 2].ponto[1];
-            v[j + 2] = vBox[i + n + 2].ponto[2];
+            v[j] = vBox[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 2].ponto[0];
-            v[j + 1] = vBox[i + n + 2].ponto[1];
-            v[j + 2] = vBox[i + n + 2].ponto[2];
+            v[j] = vBox[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
         }
     }
@@ -108,29 +107,29 @@ void genBox(float length, int div, float* v) {
     // esquerda
     for (i = 2*numvface-1; i < 3 * numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 2].ponto[0];
-            v[j + 1] = vBox[i + n + 2].ponto[1];
-            v[j + 2] = vBox[i + n + 2].ponto[2];
+            v[j] = vBox[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 2].ponto[0];
-            v[j + 1] = vBox[i + n + 2].ponto[1];
-            v[j + 2] = vBox[i + n + 2].ponto[2];
+            v[j] = vBox[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i + 1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
         }
     }
@@ -138,58 +137,58 @@ void genBox(float length, int div, float* v) {
     //direita
     for (i = 3*numvface-1; i < 4 * numvface - (n+1); i++) {
         if (((i + 1) % (n + 1) != 0) && (i % (n + 1) != 0)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i + 1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
 
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + n].ponto[0];
-            v[j + 1] = vBox[i + n].ponto[1];
-            v[j + 2] = vBox[i + n].ponto[2];
+            v[j] = vBox[i + n].x;
+            v[j + 1] = vBox[i + n].y;
+            v[j + 2] = vBox[i + n].z;
             j += 3;
         }
         else if ((i % (n + 1) == 0) && (i + n + 1 < 4 * numvface)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i + 1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
         }
         else if (((i + 1) % (n + 1) == 0) && (i + n + 1 <= 4 * numvface)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + n].ponto[0];
-            v[j + 1] = vBox[i + n].ponto[1];
-            v[j + 2] = vBox[i + n].ponto[2];
+            v[j] = vBox[i + n].x;
+            v[j + 1] = vBox[i + n].y;
+            v[j + 2] = vBox[i + n].z;
             j += 3;
         }
     }
@@ -197,30 +196,30 @@ void genBox(float length, int div, float* v) {
     //baixo
     for (i = 4 * numvface-1; i < 5 * numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 2].ponto[0];
-            v[j + 1] = vBox[i + n + 2].ponto[1];
-            v[j + 2] = vBox[i + n + 2].ponto[2];
+            v[j] = vBox[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
 
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i + 1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 2].ponto[0];
-            v[j + 1] = vBox[i + n + 2].ponto[1];
-            v[j + 2] = vBox[i + n + 2].ponto[2];
+            v[j] = vBox[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;
             j += 3;
         }
     }
@@ -228,58 +227,58 @@ void genBox(float length, int div, float* v) {
     //cima 
     for (i = 5 * numvface-1; i < 6 * numvface - (n + 1); i++) {
         if (((i+1) % (n+1) != 0) && (i%(n+1) != 0)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i +1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i +1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
 
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n].ponto[0];
-            v[j + 1] = vBox[i + n].ponto[1];
-            v[j + 2] = vBox[i + n].ponto[2];
+            v[j] = vBox[i + n].x;
+            v[j + 1] = vBox[i + n].y;
+            v[j + 2] = vBox[i + n].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
         }
         else if ((i%(n+1) == 0) && (i+n+1<= 6 * numvface)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n+1].ponto[0];
-            v[j + 1] = vBox[i + n+1].ponto[1];
-            v[j + 2] = vBox[i + n+1].ponto[2];
+            v[j] = vBox[i + n+1].x;
+            v[j + 1] = vBox[i + n+1].y;
+            v[j + 2] = vBox[i + n+1].z;
             j += 3;
-            v[j] = vBox[i + 1].ponto[0];
-            v[j + 1] = vBox[i + 1].ponto[1];
-            v[j + 2] = vBox[i + 1].ponto[2];
+            v[j] = vBox[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;
             j += 3;
         }
         else if (((i + 1) % (n + 1) == 0) && (i+n+1<=6*numvface)) {
-            v[j] = vBox[i].ponto[0];
-            v[j + 1] = vBox[i].ponto[1];
-            v[j + 2] = vBox[i].ponto[2];
+            v[j] = vBox[i].x;
+            v[j + 1] = vBox[i].y;
+            v[j + 2] = vBox[i].z;
             j += 3;
-            v[j] = vBox[i + n].ponto[0];
-            v[j + 1] = vBox[i + n].ponto[1];
-            v[j + 2] = vBox[i + n].ponto[2];
+            v[j] = vBox[i + n].x;
+            v[j + 1] = vBox[i + n].y;
+            v[j + 2] = vBox[i + n].z;
             j += 3;
-            v[j] = vBox[i + n + 1].ponto[0];
-            v[j + 1] = vBox[i + n + 1].ponto[1];
-            v[j + 2] = vBox[i + n + 1].ponto[2];
+            v[j] = vBox[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;
             j += 3;
         }
     }
@@ -287,9 +286,6 @@ void genBox(float length, int div, float* v) {
 }
 
 // Colocar cada ponto necessário no vBox
-// vBox[i].ponto[0] é o x
-// vBox[i].ponto[1] é o y
-// vBox[i].ponto[2] é o z
 
 // for face trás #1: (div+1) ^ 2, z sempre -1 *
 // for face esq #2: 2 * (div+1), x sempre -1 *
@@ -311,9 +307,9 @@ void verticesBox(float length, int div) {
         float x = startX + (i * size);
         for (int j = 0; j < (div + 1); ++j) {
             float y = startY + (j * size);
-            vBox[index].ponto[0] = x;
-            vBox[index].ponto[1] = y;
-            vBox[index].ponto[2] = -startZ;
+            vBox[index].x = x;
+            vBox[index].y = y;
+            vBox[index].z = -startZ;
             index++;
         }
     }
@@ -323,9 +319,9 @@ void verticesBox(float length, int div) {
         float x = startX + (i * size);
         for (int j = 0; j < (div + 1); ++j) {
             float y = startY + (j * size);
-            vBox[index].ponto[0] = x;
-            vBox[index].ponto[1] = y;
-            vBox[index].ponto[2] = startZ;
+            vBox[index].x = x;
+            vBox[index].y = y;
+            vBox[index].z = startZ;
             index++;
         }
     }
@@ -335,9 +331,9 @@ void verticesBox(float length, int div) {
         float z = startZ + (i * size);
         for (int j = 0; j < div + 1; ++j) {
             float y = startY + (j * size);
-            vBox[index].ponto[0] = startX;
-            vBox[index].ponto[1] = y;
-            vBox[index].ponto[2] = z;
+            vBox[index].x = startX;
+            vBox[index].y = y;
+            vBox[index].z = z;
             index++;
         }
     }
@@ -347,9 +343,9 @@ void verticesBox(float length, int div) {
         float z = startZ + (i * size);
         for (int j = 0; j < div + 1; ++j) {
             float y = startY + (j * size);
-            vBox[index].ponto[0] = -startX;
-            vBox[index].ponto[1] = y;
-            vBox[index].ponto[2] = z;
+            vBox[index].x = -startX;
+            vBox[index].y = y;
+            vBox[index].z = z;
             index++;
         }
     }
@@ -359,9 +355,9 @@ void verticesBox(float length, int div) {
         float z = startZ + (i * size);
         for (int j = 0; j < div+1; ++j) {
             float x = startX + (j * size);
-            vBox[index].ponto[0] = x;
-            vBox[index].ponto[1] = startY;
-            vBox[index].ponto[2] = z;
+            vBox[index].x = x;
+            vBox[index].y = startY;
+            vBox[index].z = z;
             index++;
         }
     }
@@ -371,9 +367,9 @@ void verticesBox(float length, int div) {
         float z = startZ + (i * size);
         for (int j = 0; j < div+1; ++j) {
             float x = startX + (j * size);
-            vBox[index].ponto[0] = x;
-            vBox[index].ponto[1] = -startY;
-            vBox[index].ponto[2] = z;
+            vBox[index].x = x;
+            vBox[index].y = -startY;
+            vBox[index].z = z;
             index++;
         }
     }
