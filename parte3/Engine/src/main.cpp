@@ -79,7 +79,7 @@ void renderScene(void) {
 	glLoadIdentity();
 
 	//world.getCamera().getPosition().printCartesianCoordinates();
-	world.getCamera().getPosition().printSphericalCoordinates();
+	//world.getCamera().getPosition().printSphericalCoordinates();
 
 	gluLookAt(world.getCamera().getPosition().getX(), world.getCamera().getPosition().getY(), world.getCamera().getPosition().getZ(),
 		      world.getCamera().getLookAt().getX(), world.getCamera().getLookAt().getY(), world.getCamera().getLookAt().getZ(),
@@ -93,60 +93,60 @@ void renderScene(void) {
 }
 
 void renderGroups(const Group& group) {
-	Transform transform = group.getTransform();
-    const std::vector<TransformType>& transformOrder = transform.getTransformationOrder();
+	const Transform& transform = group.getTransform();
+	const std::vector<TransformType>& transformOrder = transform.getTransformationOrder();
 
-    for (size_t j = 0; j < transformOrder.size(); j++) {
-        TransformType type = transformOrder[j];
-        switch(type) {
-            case TRANSLATION:
-				transform.drawTranslation(transform.getTranslationPoints(), transform.getTime());
-                //glTranslatef(transform.getTranslation().getX(), transform.getTranslation().getY(), transform.getTranslation().getZ());
-				break;
-            case ROTATION:
-                glRotatef(transform.getTimeForRotation(), transform.getRotation().getX(), transform.getRotation().getY(), transform.getRotation().getZ());
-                break;
-            case SCALING:
-                glScalef(transform.getScale().getX(), transform.getScale().getY(), transform.getScale().getZ());
-                break;
-        }
-		//if (((transform.getTime() != 0) || (transform.getTimeForRotation() != 0)) && (j = transformOrder.size() - 1)) j = 0;
-    }
+	for (size_t j = 0; j < transformOrder.size(); j++) {
+		TransformType type = transformOrder[j];
+		if (type == TRANSLATION) {
+			printf("entrou Translate\n");
+			const std::vector<Point>& transformPoints = transform.getTranslationPoints();
+			for (int i = 0; i < transformPoints.size(); i++) {
+				std::cout << "Point " << i << ": " << transformPoints[i].getX() << " " << transformPoints[i].getY() << " " << transformPoints[i].getZ() << std::endl;
+			}
+			transform.drawTranslation(transformPoints, transform.getTime());
+		}
+		else if (type == ROTATION) {
+			//printf("entrou Rotate\n");
+			glRotatef(transform.getTimeForRotation(), transform.getRotation().getX(), transform.getRotation().getY(), transform.getRotation().getZ());
+		}
+		else if (type == SCALING) {
+			//printf("entrou Scaling\n");
+			glScalef(transform.getScale().getX(), transform.getScale().getY(), transform.getScale().getZ());
+		}
+	}
 
-
-    // Generate and bind VBO
-    std::vector<float> p;
-    for(size_t i = 0; i < group.models.size(); i++) {
+	// Generate and bind VBO
+	std::vector<float> p;
+	for (size_t i = 0; i < group.models.size(); i++) {
 		const std::vector<float>& modelVBO = group.models[i].getVBO();
 		p.insert(p.end(), modelVBO.begin(), modelVBO.end());
+	}
+	verticeCount = p.size() / 3;
 
-    }
-    verticeCount = p.size() / 3;
+	glGenBuffers(1, &vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * p.size(), p.data(), GL_STATIC_DRAW);
 
-    glGenBuffers(1, &vertices);
-    glBindBuffer(GL_ARRAY_BUFFER, vertices);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * p.size(), p.data(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, vertices);
+	glVertexPointer(3, GL_FLOAT, 0, 0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, vertices);
-    glVertexPointer(3, GL_FLOAT, 0, 0);
+	// Draw models
+	for (size_t i = 0; i < group.models.size(); i++) {
+		glDrawArrays(GL_TRIANGLES, i * verticeCount / group.models.size(), verticeCount / group.models.size());
+	}
 
-    // Draw models
-    for(size_t i = 0; i < group.models.size(); i++) {
-        glDrawArrays(GL_TRIANGLES, i * verticeCount / group.models.size(), verticeCount / group.models.size());
+	// Recursively render child groups
+	for (size_t i = 0; i < group.groups.size(); i++) {
+		Group childGroup = group.groups[i];
+		glPushMatrix();
+		renderGroups(childGroup);
+		glPopMatrix();
+	}
 
-    }
-
-    // Recursively render child groups
-    for (size_t i = 0; i < group.groups.size(); i++) {
-        Group childGroup = group.groups[i];
-        glPushMatrix();
-        renderGroups(childGroup);
-        glPopMatrix();
-    }
-
-    // Unbind VBO
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glDeleteBuffers(1, &vertices);
+	// Unbind VBO
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glDeleteBuffers(1, &vertices);
 }
 
 

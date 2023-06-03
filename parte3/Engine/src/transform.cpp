@@ -37,7 +37,7 @@ std::vector<Point> Transform::getTranslationPoints() const {
     return translationPoints;
 }
 
-void Transform::getCurvePoint(std::vector<Point> c, float tt, float* pos, float* deriv) {
+void Transform::getCurvePoint(std::vector<Point> c, float tt, float* pos, float* deriv) const {
     int conta = c.size();
     if (conta == 0) {
         // Lidar com o vetor vazio, atribuindo valores padrão a pos e deriv
@@ -72,12 +72,12 @@ void Transform::getCurvePoint(std::vector<Point> c, float tt, float* pos, float*
 }
 
 
-void Transform::drawTranslation(const std::vector<Point>& t, int timestp) {
+void Transform::drawTranslation(const std::vector<Point>& t, float timestp) const{
     float pos[3] = {0,0,0};
     float deriv[3] = {0,0,0};
     if (timestp == 0) timestp = 1; //para evitar floating point exception
     float scaledT = glutGet(GLUT_ELAPSED_TIME)/timestp;
-    printf("\n%f\n", scaledT);
+    //printf("\n%f\n", scaledT);
 
     getCurvePoint(t, scaledT, pos, deriv);
     
