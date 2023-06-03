@@ -77,7 +77,7 @@ Group convertGroup(xml_node group_node) {
                     group.setTransform(transform);
 
                 } else if (std::string(transform_node.name()) == "rotate") {
-                    transform.setRotation(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float(), transform_node.attribute("time").as_float());
+                    transform.setRotation(transform_node.attribute("time").as_float(), transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float());
 
                 } else if (std::string(transform_node.name()) == "scale") {
                     transform.setScale(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float());

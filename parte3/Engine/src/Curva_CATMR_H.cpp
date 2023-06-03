@@ -21,6 +21,7 @@ void ProdVet(float* a, float* b, float* res) {
 void normaliza(float* a) {
 
 	float l = sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+	if (l==0)l=1; //para nao haver floating point exception
 	a[0] = a[0] / l;
 	a[1] = a[1] / l;
 	a[2] = a[2] / l;
@@ -29,50 +30,48 @@ void normaliza(float* a) {
 
 // multiplicar matriz por vetor 
 void multMatrixVector(const float* m, const float* v, float* res) {
-
-	for (int j = 0; j < 4; ++j) {
-		res[j] = 0;
-		for (int k = 0; k < 4; ++k) {
-			res[j] += v[k] * m[j * 4 + k];
-		}
-	}
-
+    for (int j = 0; j < 4; ++j) {
+        res[j] = 0;
+        for (int k = 0; k < 4; ++k) {
+            res[j] += v[k] * m[j * 4 + k];
+        }
+    }
 }
 
 void CMRPoint(float t, float* p0, float* p1, float* p2, float* p3, float* pos, float* deriv) {
-	float m[4][4] = { {-0.5f, 1.5f,-1.5f, 0.5f},
-					  { 1.0f,-2.5f, 2.0f,-0.5f},
-					  {-0.5f, 0.0f, 0.5f, 0.0f},
-					  { 0.0f, 1.0f, 0.0f, 0.0f} };
+    float m[16] = { -0.5f, 1.5f, -1.5f, 0.5f,
+                     1.0f, -2.5f, 2.0f, -0.5f,
+                    -0.5f, 0.0f, 0.5f, 0.0f,
+                     0.0f, 1.0f, 0.0f, 0.0f };
 
-	float a[3][4];
-	float p[3][4];
-	for (int i = 0; i < 3; i++) {
-		p[i][0] = p0[i];
-		p[i][1] = p1[i];
-		p[i][2] = p2[i];
-		p[i][3] = p3[i];
-	}
+    float a[3][4];
+    float p[3][4];
+    for (int i = 0; i < 3; i++) {
+        p[i][0] = p0[i];
+        p[i][1] = p1[i];
+        p[i][2] = p2[i];
+        p[i][3] = p3[i];
+    }
 
-	//  A = M * P
-	multMatrixVector((float*)m, p[0], a[0]);
-	multMatrixVector((float*)m, p[1], a[1]);
-	multMatrixVector((float*)m, p[2], a[2]);
+    //  A = M * P
+    multMatrixVector(m, p[0], a[0]);
+    multMatrixVector(m, p[1], a[1]);
+    multMatrixVector(m, p[2], a[2]);
 
-	// vetor t^3 t^2 t 1
-	float T[4] = { t * t * t, t * t, t, 1 };
+    // vetor t^3 t^2 t 1
+    float T[4] = { t * t * t, t * t, t, 1 };
 
-	for (int i = 0; i < 3; i++) {
-		pos[i] = 0;
-		for (int j = 0; j < 4; j++)
-			pos[i] += T[j] * a[i][j];
-	}
-	
-	// expressao da derivada
-	float dT[4] = { 3 * t * t, 2 * t, 1, 0 };
-	for (int i = 0; i < 3; i++) {
-		deriv[i] = 0;
-		for (int j = 0; j < 4; j++)
-			deriv[i] += dT[j] * a[i][j];
-	}
+    for (int i = 0; i < 3; i++) {
+        pos[i] = 0;
+        for (int j = 0; j < 4; j++)
+            pos[i] += T[j] * a[i][j];
+    }
+
+    // expressao da derivada
+    float dT[4] = { 3 * t * t, 2 * t, 1, 0 };
+    for (int i = 0; i < 3; i++) {
+        deriv[i] = 0;
+        for (int j = 0; j < 4; j++)
+            deriv[i] += dT[j] * a[i][j];
+    }
 }

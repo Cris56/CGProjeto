@@ -39,6 +39,18 @@ std::vector<Point> Transform::getTranslationPoints() const {
 
 void Transform::getCurvePoint(std::vector<Point> c, float tt, float* pos, float* deriv) {
     int conta = c.size();
+    if (conta == 0) {
+        // Lidar com o vetor vazio, atribuindo valores padrão a pos e deriv
+        std::vector<Point> defaultVector(4, Point(0.0f, 0.0f, 0.0f));
+        c = defaultVector;
+        pos[0] = 0.0f;
+        pos[1] = 0.0f;
+        pos[2] = 0.0f;
+        deriv[0] = 0.0f;
+        deriv[1] = 0.0f;
+        deriv[2] = 0.0f;
+        return;
+    } //para evitar floating point exception
 
     float t = tt * conta;
     int index = static_cast<int>(floor(t));
@@ -59,17 +71,19 @@ void Transform::getCurvePoint(std::vector<Point> c, float tt, float* pos, float*
     CMRPoint(t, p[0], p[1], p[2], p[3], pos, deriv);
 }
 
-void Transform::drawTranslation(const std::vector<Point>& t, int timestp) {
-    float pos[3];
-    float deriv[3];
 
-    float scaledT = glutGet(GLUT_ELAPSED_TIME) / timestp;
+void Transform::drawTranslation(const std::vector<Point>& t, int timestp) {
+    float pos[3] = {0,0,0};
+    float deriv[3] = {0,0,0};
+    if (timestp == 0) timestp = 1; //para evitar floating point exception
+    float scaledT = glutGet(GLUT_ELAPSED_TIME)/timestp;
     printf("\n%f\n", scaledT);
-    float tmp2 = 5.0f;
-    float tmp1 = glutGet(GLUT_ELAPSED_TIME) / tmp2;
 
     getCurvePoint(t, scaledT, pos, deriv);
+    
+    glLoadIdentity(); // Reinicia a matriz de transformação
     glTranslatef(pos[0], pos[1], pos[2]);
+    
     normaliza(deriv);
 
     Point p(0, 1, 0);
@@ -92,7 +106,7 @@ void Transform::setTranslation(float x, float y, float z) {
     transformationOrder.push_back(TRANSLATION);
 }
 
-void Transform::setRotation(float x, float y, float z, float time) {
+void Transform::setRotation(float time, float x, float y, float z) {
     rotationAxis = Point(x, y, z);
     timeForRotation = time;
     transformationOrder.push_back(ROTATION);

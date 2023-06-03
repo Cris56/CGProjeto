@@ -93,7 +93,7 @@ void renderScene(void) {
 }
 
 void renderGroups(const Group& group) {
-	Transform& transform = group.getTransform();
+	Transform transform = group.getTransform();
     const std::vector<TransformType>& transformOrder = transform.getTransformationOrder();
 
     for (size_t j = 0; j < transformOrder.size(); j++) {
