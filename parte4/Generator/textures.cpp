@@ -37,20 +37,22 @@ void genTexBox(Point* points, float size, int div, Point* dest) {
 }
 
 // aplica por todo, arredondando
-void genTexSphere(float radius, int slices, int stacks, Point* dest) {
+void genTexSphere(int slices, int stacks, Point* dest) {
 	int index = 0;
-	float height = 1;
-	double hstep = 1 / stacks;
-	double wstep = 1 / slices;
-	for (int i = 0; i < stacks + 1; i++) {
+	float hstep = 1 / (float) stacks;
+	float wstep = 1 / (float) slices;
+	for (int i = 0; i < (stacks + 1); i++) {
+		float y = (stacks - i) * hstep;
 		for (int j = 0; j < slices; j++) {
-			dest[index].x = j * wstep;
-			dest[index].y = height;
+			float x = j * wstep;
+			dest[index].x = x;
+			dest[index].y = y;
 			dest[index].z = 0;
 			index++;
 		}
-		height -= hstep;
 	}
+
+
 }
 
 // aplica por patch
