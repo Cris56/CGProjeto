@@ -4,8 +4,6 @@
 #include <vector>
 #include "transform.hpp"
 #include "model.hpp"
-#include "colours.hpp"
-#include "lights.hpp"
 
 class Group {
 public:
