@@ -7,7 +7,8 @@
 #include <cstdlib>
 #include <vector>
 #include "geometry.hpp"
+#include "textures.hpp"
 using namespace std;
 
-void genBox(float length, int div, float* v); 
+void genBox(float length, int div, float* v, float* vt); 
 void verticesBox(float length, int div);

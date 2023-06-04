@@ -6,6 +6,8 @@
 #include "cone.hpp"
 #include "sphere.hpp"
 #include "bezier.hpp"
+#include "normals.hpp"
+#include "textures.hpp"
 
 #include <iostream>
 #include <fstream>
