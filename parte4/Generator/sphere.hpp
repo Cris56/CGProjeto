@@ -7,7 +7,8 @@
 #include <cstdlib>
 #include <vector>
 #include "geometry.hpp"
+#include "textures.hpp"
 using namespace std;
 
-void genSphere(float radius, int slices, int stacks, float *v);
+void genSphere(float radius, int slices, int stacks, float *v, float* vt);
 void verticesSphere(float radius, int slices, int stacks);
