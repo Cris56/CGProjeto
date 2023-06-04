@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
             int triangulosBase = 4 + 1;
             int triangulosBody = 4 * 3 * 2;
             ConeVertices.resize((triangulosBase + triangulosBody) * 9);
-            gerCone(1, 2, 4, 3, ConeVertices.data());
+            //genCone(1, 2, 4, 3, ConeVertices.data());
             //save_vertices_to_file("cone_1_2_4_3.3d", ConeVertices);
 
             
@@ -70,7 +70,8 @@ int main(int argc, char** argv) {
             readPatch(patchfile);
             const int numvb = numvtBezier(a2);
             vertices.resize(numvb * 3);
-            genBezier(vertices.data());
+            verticesTex.resize(numvb * 3);
+            genBezier(vertices.data(), verticesTex.data());
         }
 
         const float a1 = atof(argv[2]);
@@ -94,7 +95,8 @@ int main(int argc, char** argv) {
             int triangulosBase = a3 + 1;
             int triangulosBody = a3 * a4 * 2;
             vertices.resize((triangulosBase + triangulosBody) * 9);
-            gerCone(a1, a2, a3, a4, vertices.data());
+            verticesTex.resize((triangulosBase + triangulosBody) * 9);
+            genCone(a1, a2, a3, a4, vertices.data(), verticesTex.data());
         }
         else if (!strcmp(obj.c_str(), "plane") && argc == 5) {
             const int numvt = (6 * a2 * a2);

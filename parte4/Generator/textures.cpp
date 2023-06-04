@@ -56,11 +56,64 @@ void genTexSphere(int slices, int stacks, Point* dest) {
 }
 
 // aplica por patch
-void genTexBezier() { 
-
+void genTexBezier(int tess, int patches, Point* dest) {
+	int numvp = (tess + 1) * (tess + 1);
+	float step = 1 / (float) tess;
+	int index = 0;
+	for (int i = 0; i < patches; i++) {
+		for (int j = 0; j < tess + 1; j++) {
+			float x = j * step;
+			for (int k = 0; k < tess; k++) {
+				float y = k * step;
+				dest[index].x = x;
+				dest[index].y = y;
+				dest[index].z = 0;
+				index++;
+			}
+		}
+	}
 }
 
-// aplica em duas partes
-void genTexCone(Point* points, int slices, int stacks, Point* dest) {
+// aplica por slice
+void genTexCone(int slices, int stacks, Point* dest) {
+	int numvBase = (slices + 1) * 3;
+	int	numvBody = slices * stacks * 2 * 3;
+	for (int i = 0; i < numvBase; i+=3) {
+		dest[i].x = 0;
+		dest[i].y = 0;
+		dest[i].z = 0;
 
+		dest[i + 1].x = 0;
+		dest[i + 1].y = 1;
+		dest[i + 1].z = 0;
+
+		dest[i + 2].x = 1;
+		dest[i + 2].y = 1;
+		dest[i + 2].z = 0;
+	}
+	for (int j = numvBase; j < (numvBody + numvBase); j+=6) {
+		dest[j].x = 0;
+		dest[j].y = 0;
+		dest[j].z = 0;
+
+		dest[j + 1].x = 1;
+		dest[j + 1].y = 1;
+		dest[j + 1].z = 0;
+
+		dest[j + 2].x = 0;
+		dest[j + 2].y = 1;
+		dest[j + 2].z = 0;
+		
+		dest[j + 3].x = 0;
+		dest[j + 3].y = 0;
+		dest[j + 3].z = 0;
+
+		dest[j + 4].x = 1;
+		dest[j + 4].y = 0;
+		dest[j + 4].z = 0;
+
+		dest[j + 5].x = 1;
+		dest[j + 5].y = 1;
+		dest[j + 5].z = 0;
+	}
 }

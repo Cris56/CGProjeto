@@ -1,6 +1,6 @@
 #include "cone.hpp"
 
-void genCone(float coneRadius, float coneHeight, int numSlices, int numStacks, float *v) {
+void genCone(float coneRadius, float coneHeight, int numSlices, int numStacks, float *v, float *vt) {
 
     if (coneRadius <= 0 || coneHeight <= 0 || numSlices < 3 || numStacks < 1) {
         throw std::invalid_argument("Invalid input parameters for genCone function.");
@@ -16,19 +16,24 @@ void genCone(float coneRadius, float coneHeight, int numSlices, int numStacks, f
     coneTrianglesCombined.insert(coneTrianglesCombined.end(), coneBodyTriangles.begin(), coneBodyTriangles.end());
 
     int numVCombined = coneTrianglesCombined.size() * 3;
+    vector<Point> vConeTex;
+    vConeTex.resize(numVCombined);
+    genTexCone(numSlices, numStacks, vConeTex.data());
 
+    int indtex = 0;
     for (int i = 0, j = 0; j < numVCombined * 3; i++, j += 9) {
-        v[j] =     coneTrianglesCombined[i].vertex1.x;
-        v[j + 1] = coneTrianglesCombined[i].vertex1.y;
-        v[j + 2] = coneTrianglesCombined[i].vertex1.z;
+        v[j] =     coneTrianglesCombined[i].vertex1.x;  vt[j] = vConeTex[indtex].x;
+        v[j + 1] = coneTrianglesCombined[i].vertex1.y;  vt[j + 1] = vConeTex[indtex].y;
+        v[j + 2] = coneTrianglesCombined[i].vertex1.z;  vt[j + 2] = vConeTex[indtex].z;
 
-        v[j + 3] = coneTrianglesCombined[i].vertex2.x;
-        v[j + 4] = coneTrianglesCombined[i].vertex2.y;
-        v[j + 5] = coneTrianglesCombined[i].vertex2.z;
+        v[j + 3] = coneTrianglesCombined[i].vertex2.x;  vt[j + 3] = vConeTex[indtex + 1].x;
+        v[j + 4] = coneTrianglesCombined[i].vertex2.y;  vt[j + 4] = vConeTex[indtex + 1].y;
+        v[j + 5] = coneTrianglesCombined[i].vertex2.z;  vt[j + 5] = vConeTex[indtex + 1].z;
 
-        v[j + 6] = coneTrianglesCombined[i].vertex3.x;
-        v[j + 7] = coneTrianglesCombined[i].vertex3.y;
-        v[j + 8] = coneTrianglesCombined[i].vertex3.z;
+        v[j + 6] = coneTrianglesCombined[i].vertex3.x;  vt[j + 6] = vConeTex[indtex + 2].x;
+        v[j + 7] = coneTrianglesCombined[i].vertex3.y;  vt[j + 7] = vConeTex[indtex + 2].y;
+        v[j + 8] = coneTrianglesCombined[i].vertex3.z;  vt[j + 8] = vConeTex[indtex + 2].z;
+        indtex += 3;
     }
     return;
 }
