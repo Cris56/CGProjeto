@@ -1,0 +1,4 @@
+/home/diogo/Desktop/Programming/CG/TP/Fase3/Engine/build/CMakeFiles/rebuild_cache.dir
+/home/diogo/Desktop/Programming/CG/TP/Fase3/Engine/build/CMakeFiles/edit_cache.dir
+/home/diogo/Desktop/Programming/CG/TP/Fase3/Engine/build/CMakeFiles/pugi.dir
+/home/diogo/Desktop/Programming/CG/TP/Fase3/Engine/build/CMakeFiles/engine.dir

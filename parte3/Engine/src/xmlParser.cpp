@@ -41,17 +41,13 @@ World convertToWorld(const char* fileName) {
     return world;
 }
 
-// Update the code for the 'convertGroup' function
 
 Group convertGroup(xml_node group_node) {
     Group group;
     xml_node child;
 
     for (child = group_node.first_child(); child; child = child.next_sibling()) {
-        //std::cout << "Node Name: " << child.name() << std::endl; 
-
         if (std::string(child.name()) == "group") {
-            //std::cout << "Found group node" << std::endl;
             group.addGroup(convertGroup(child));
         } else if (std::string(child.name()) == "transform") {
             Transform transform;
@@ -59,12 +55,8 @@ Group convertGroup(xml_node group_node) {
             xml_node transform_node;
             for (transform_node = child.first_child(); transform_node; transform_node = transform_node.next_sibling()) {
                 if (std::string(transform_node.name()) == "translate") {
-
                     float time = transform_node.attribute("time").as_float();
                     float align = transform_node.attribute("align").as_bool();
-
-                    //std::cout << "Time: " << time << std::endl;
-                    //std::cout << "Align: " << align << std::endl;
 
                     xml_node point_node;
                     for (point_node = transform_node.child("point"); point_node; point_node = point_node.next_sibling("point")) {
@@ -72,30 +64,19 @@ Group convertGroup(xml_node group_node) {
                         float y = point_node.attribute("y").as_float();
                         float z = point_node.attribute("z").as_float();
 
-                      
-                        //std::cout << "Translation Point: x=" << x << ", y=" << y << ", z=" << z << std::endl;
-
                         transform.addTranslationPoint(x, y, z);
                     }
                     transform.setIsAligned(align);
                     transform.setTime(time);
-
-                    //for (int i = 0; i < 4; i++) {
-			        //	std::cout << "Point " << i << ": " << (transform.getTranslationPoints())[i].getX() << " " << (transform.getTranslationPoints())[i].getY() << " " << (transform.getTranslationPoints())[i].getZ() << std::endl;
-                    //}
-                } 
-                else if (std::string(transform_node.name()) == "rotate") {
+                    transform.setNewTranslation();
+                } else if (std::string(transform_node.name()) == "rotate") {
                     transform.setRotation(transform_node.attribute("time").as_float(), transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float());
-                } 
-                else if (std::string(transform_node.name()) == "scale") {
+                } else if (std::string(transform_node.name()) == "scale") {
                     transform.setScale(transform_node.attribute("x").as_float(), transform_node.attribute("y").as_float(), transform_node.attribute("z").as_float());
                 }
-                
-                group.setTransform(transform);
             }
-            //group.setTransform(transform);
 
-
+            group.setTransform(transform);
         } else if (std::string(child.name()) == "models") {
             xml_node model_node;
             for (model_node = child.first_child(); model_node; model_node = model_node.next_sibling()) {
@@ -105,6 +86,10 @@ Group convertGroup(xml_node group_node) {
         }
     }
 
+    
+
+
     return group;
 }
+
 

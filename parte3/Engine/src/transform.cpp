@@ -79,6 +79,10 @@ void Transform::drawTranslation(const std::vector<Point>& t, float timestp) cons
     float scaledT = glutGet(GLUT_ELAPSED_TIME)/timestp;
     //printf("\n%f\n", scaledT);
 
+    for (const auto& point : t) {
+        printf("Point: (%f, %f, %f)\n", point.getX(), point.getY(), point.getZ());
+    }
+
     getCurvePoint(t, scaledT, pos, deriv);
     
     glLoadIdentity(); // Reinicia a matriz de transformação
@@ -103,6 +107,10 @@ void Transform::drawTranslation(const std::vector<Point>& t, float timestp) cons
 
 void Transform::setTranslation(float x, float y, float z) {
     translationAxis = Point(x, y, z);
+    transformationOrder.push_back(TRANSLATION);
+}
+
+void Transform::setNewTranslation(){
     transformationOrder.push_back(TRANSLATION);
 }
 

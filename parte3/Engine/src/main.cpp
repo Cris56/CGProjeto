@@ -98,12 +98,12 @@ void renderGroups(const Group& group) {
 
 	for (size_t j = 0; j < transformOrder.size(); j++) {
 		TransformType type = transformOrder[j];
-		if (type == TRANSLATION) {
-			printf("entrou Translate\n");
+		if (type == TransformType::TRANSLATION) {
+			//printf("entrou Translate\n");
 			const std::vector<Point>& transformPoints = transform.getTranslationPoints();
-			for (int i = 0; i < transformPoints.size(); i++) {
-				std::cout << "Point " << i << ": " << transformPoints[i].getX() << " " << transformPoints[i].getY() << " " << transformPoints[i].getZ() << std::endl;
-			}
+			//for (int i = 0; i < transformPoints.size(); i++) {
+			//	std::cout << "Point " << i << ": " << transformPoints[i].getX() << " " << transformPoints[i].getY() << " " << transformPoints[i].getZ() << std::endl;
+			//}
 			transform.drawTranslation(transformPoints, transform.getTime());
 		}
 		else if (type == ROTATION) {
