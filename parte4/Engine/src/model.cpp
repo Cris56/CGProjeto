@@ -40,19 +40,3 @@ void Model::prepareData() {
         vbo.push_back(vertices[i].getZ());
     }
 }
-
-void Model::setColor(const ModelColor& color) {
-    this->color = color;
-}
-
-const ModelColor& Model::getColor() const {
-    return color;
-}
-
-void Model::setTexture(const std::string& textureFile) {
-    this->textureFile = textureFile;
-}
-
-const std::string& Model::getTexture() const {
-    return textureFile;
-}

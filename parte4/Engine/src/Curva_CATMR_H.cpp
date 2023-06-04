@@ -21,10 +21,11 @@ void ProdVet(float* a, float* b, float* res) {
 void normaliza(float* a) {
 
 	float l = sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
-	if (l==0)l=1; //para nao haver floating point exception
-	a[0] = a[0] / l;
-	a[1] = a[1] / l;
-	a[2] = a[2] / l;
+    if (l != 0) {
+        a[0] = a[0] / l;
+        a[1] = a[1] / l;
+        a[2] = a[2] / l;
+    }
 }
 
 
@@ -38,40 +39,28 @@ void multMatrixVector(const float* m, const float* v, float* res) {
     }
 }
 
-void CMRPoint(float t, float* p0, float* p1, float* p2, float* p3, float* pos, float* deriv) {
-    float m[16] = { -0.5f, 1.5f, -1.5f, 0.5f,
-                     1.0f, -2.5f, 2.0f, -0.5f,
-                    -0.5f, 0.0f, 0.5f, 0.0f,
-                     0.0f, 1.0f, 0.0f, 0.0f };
+void CMRPoint(float t, Point p0, Point p1, Point p2, Point p3, float* pos, float* deriv) {
+    float m[4][4] = {
+        {-0.5f, 1.5f, -1.5f, 0.5f},
+        {1.0f, -2.5f, 2.0f, -0.5f},
+        {-0.5f, 0.0f, 0.5f, 0.0f},
+        {0.0f, 1.0f, 0.0f, 0.0f}
+    };
 
-    float a[3][4];
-    float p[3][4];
-    for (int i = 0; i < 3; i++) {
-        p[i][0] = p0[i];
-        p[i][1] = p1[i];
-        p[i][2] = p2[i];
-        p[i][3] = p3[i];
-    }
+    float px[4] = { static_cast<float>(p0.getX()), static_cast<float>(p1.getX()), static_cast<float>(p2.getX()), static_cast<float>(p3.getX()) };
+    float py[4] = { static_cast<float>(p0.getY()), static_cast<float>(p1.getY()), static_cast<float>(p2.getY()), static_cast<float>(p3.getY()) };
+    float pz[4] = { static_cast<float>(p0.getZ()), static_cast<float>(p1.getZ()), static_cast<float>(p2.getZ()), static_cast<float>(p3.getZ()) };
 
-    //  A = M * P
-    multMatrixVector(m, p[0], a[0]);
-    multMatrixVector(m, p[1], a[1]);
-    multMatrixVector(m, p[2], a[2]);
+    float a[4], px_a[4], py_a[4], pz_a[4];
+    multMatrixVector(*m, px, px_a);
+    multMatrixVector(*m, py, py_a);
+    multMatrixVector(*m, pz, pz_a);
 
-    // vetor t^3 t^2 t 1
-    float T[4] = { t * t * t, t * t, t, 1 };
+    pos[0] = t * t * t * px_a[0] + t * t * px_a[1] + t * px_a[2] + px_a[3];
+    pos[1] = t * t * t * py_a[0] + t * t * py_a[1] + t * py_a[2] + py_a[3];
+    pos[2] = t * t * t * pz_a[0] + t * t * pz_a[1] + t * pz_a[2] + pz_a[3];
 
-    for (int i = 0; i < 3; i++) {
-        pos[i] = 0;
-        for (int j = 0; j < 4; j++)
-            pos[i] += T[j] * a[i][j];
-    }
-
-    // expressao da derivada
-    float dT[4] = { 3 * t * t, 2 * t, 1, 0 };
-    for (int i = 0; i < 3; i++) {
-        deriv[i] = 0;
-        for (int j = 0; j < 4; j++)
-            deriv[i] += dT[j] * a[i][j];
-    }
+    deriv[0] = 3 * t * t * (px_a[0] - px_a[1]) + 2 * t * (px_a[1] - px_a[2]) + (px_a[2] - px_a[3]);
+    deriv[1] = 3 * t * t * (py_a[0] - py_a[1]) + 2 * t * (py_a[1] - py_a[2]) + (py_a[2] - py_a[3]);
+    deriv[2] = 3 * t * t * (pz_a[0] - pz_a[1]) + 2 * t * (pz_a[1] - pz_a[2]) + (pz_a[2] - pz_a[3]);
 }
