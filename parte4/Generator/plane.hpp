@@ -7,7 +7,8 @@
 #include <cstdlib>
 #include <vector>
 #include "geometry.hpp"
+#include "textures.hpp"
 using namespace std;
 
-void genPlane(float size, int divisions, float* v);
+void genPlane(float size, int divisions, float* v, float* vt);
 void verticesPlano(float size, int divisions);

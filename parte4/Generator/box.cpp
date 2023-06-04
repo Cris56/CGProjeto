@@ -2,13 +2,17 @@
 #include "box.hpp"
 
 vector<Point> vBox;
+vector<Point> vBoxTex;
 
-void genBox(float length, int div, float* v) {
+void genBox(float length, int div, float* v, float* vt) {
     
     int n = div;
     const int numv = (div + 1) * (div + 1) * 6;
     vBox.resize(numv);
     verticesBox(length, div);
+
+    vBoxTex.resize(numv);
+    genTexBox(vBox.data(), length, div, vBoxTex.data());
 
     // organizar por triângulos para pôr no v
     int j = 0;
@@ -18,58 +22,58 @@ void genBox(float length, int div, float* v) {
     // frente
     for (i = 0; i < numvface - (n + 1); i++) {
         if (((i+1) % (n+1) != 0) && (i%(n+1) != 0)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n].x;
-            v[j + 1] = vBox[i + n].y;
-            v[j + 2] = vBox[i + n].z;
+            v[j] = vBox[i + n].x;           vt[j] = vBoxTex[i + n].x;
+            v[j + 1] = vBox[i + n].y;       vt[j + 1] = vBoxTex[i + n].y;
+            v[j + 2] = vBox[i + n].z;       vt[j + 2] = vBoxTex[i + n].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
 
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i + 1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
         }
         else if ((i%(n+1)) == 0 && (i+n+1<numvface)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i + 1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
         }
         else if (((i + 1) % (n + 1) == 0) && (i+n+1<=numvface)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n].x;
-            v[j + 1] = vBox[i + n].y;
-            v[j + 2] = vBox[i + n].z;
+            v[j] = vBox[i + n].x;           vt[j] = vBoxTex[i + n].x;
+            v[j + 1] = vBox[i + n].y;       vt[j + 1] = vBoxTex[i + n].y;
+            v[j + 2] = vBox[i + n].z;       vt[j + 2] = vBoxTex[i + n].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
         }
     }
@@ -77,29 +81,29 @@ void genBox(float length, int div, float* v) {
     // tras
     for (i = numvface-1; i < 2*numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i + 1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 2].x;
-            v[j + 1] = vBox[i + n + 2].y;
-            v[j + 2] = vBox[i + n + 2].z;
+            v[j] = vBox[i + n + 2].x;       vt[j] = vBoxTex[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;   vt[j + 1] = vBoxTex[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;   vt[j + 2] = vBoxTex[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 2].x;
-            v[j + 1] = vBox[i + n + 2].y;
-            v[j + 2] = vBox[i + n + 2].z;
+            v[j] = vBox[i + n + 2].x;       vt[j] = vBoxTex[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;   vt[j + 1] = vBoxTex[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;   vt[j + 2] = vBoxTex[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
         }
     }
@@ -107,29 +111,29 @@ void genBox(float length, int div, float* v) {
     // esquerda
     for (i = 2*numvface-1; i < 3 * numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 2].x;
-            v[j + 1] = vBox[i + n + 2].y;
-            v[j + 2] = vBox[i + n + 2].z;
+            v[j] = vBox[i + n + 2].x;       vt[j] = vBoxTex[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;   vt[j + 1] = vBoxTex[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;   vt[j + 2] = vBoxTex[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 2].x;
-            v[j + 1] = vBox[i + n + 2].y;
-            v[j + 2] = vBox[i + n + 2].z;
+            v[j] = vBox[i + n + 2].x;       vt[j] = vBoxTex[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;   vt[j + 1] = vBoxTex[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;   vt[j + 2] = vBoxTex[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i + 1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
         }
     }
@@ -137,58 +141,58 @@ void genBox(float length, int div, float* v) {
     //direita
     for (i = 3*numvface-1; i < 4 * numvface - (n+1); i++) {
         if (((i + 1) % (n + 1) != 0) && (i % (n + 1) != 0)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i + 1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
 
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + n].x;
-            v[j + 1] = vBox[i + n].y;
-            v[j + 2] = vBox[i + n].z;
+            v[j] = vBox[i + n].x;           vt[j] = vBoxTex[i + n].x;
+            v[j + 1] = vBox[i + n].y;       vt[j + 1] = vBoxTex[i + n].y;
+            v[j + 2] = vBox[i + n].z;       vt[j + 2] = vBoxTex[i + n].z;
             j += 3;
         }
         else if ((i % (n + 1) == 0) && (i + n + 1 < 4 * numvface)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i + 1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
         }
         else if (((i + 1) % (n + 1) == 0) && (i + n + 1 <= 4 * numvface)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + n].x;
-            v[j + 1] = vBox[i + n].y;
-            v[j + 2] = vBox[i + n].z;
+            v[j] = vBox[i + n].x;           vt[j] = vBoxTex[i + n].x;
+            v[j + 1] = vBox[i + n].y;       vt[j + 1] = vBoxTex[i + n].y;
+            v[j + 2] = vBox[i + n].z;       vt[j + 2] = vBoxTex[i + n].z;
             j += 3;
         }
     }
@@ -196,30 +200,30 @@ void genBox(float length, int div, float* v) {
     //baixo
     for (i = 4 * numvface-1; i < 5 * numvface - (n + 1); i++) {
         if ((i + 1) % (n + 1) != 0) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 2].x;
-            v[j + 1] = vBox[i + n + 2].y;
-            v[j + 2] = vBox[i + n + 2].z;
+            v[j] = vBox[i + n + 2].x;       vt[j] = vBoxTex[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;   vt[j + 1] = vBoxTex[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;   vt[j + 2] = vBoxTex[i + n + 2].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
 
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i + 1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
-            v[j] = vBox[i + n + 2].x;
-            v[j + 1] = vBox[i + n + 2].y;
-            v[j + 2] = vBox[i + n + 2].z;
+            v[j] = vBox[i + n + 2].x;       vt[j] = vBoxTex[i + n + 2].x;
+            v[j + 1] = vBox[i + n + 2].y;   vt[j + 1] = vBoxTex[i + n + 2].y;
+            v[j + 2] = vBox[i + n + 2].z;   vt[j + 2] = vBoxTex[i + n + 2].z;
             j += 3;
         }
     }
@@ -227,58 +231,58 @@ void genBox(float length, int div, float* v) {
     //cima 
     for (i = 5 * numvface-1; i < 6 * numvface - (n + 1); i++) {
         if (((i+1) % (n+1) != 0) && (i%(n+1) != 0)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i +1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
 
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n].x;
-            v[j + 1] = vBox[i + n].y;
-            v[j + 2] = vBox[i + n].z;
+            v[j] = vBox[i + n].x;           vt[j] = vBoxTex[i + n].x;
+            v[j + 1] = vBox[i + n].y;       vt[j + 1] = vBoxTex[i + n].y;
+            v[j + 2] = vBox[i + n].z;       vt[j + 2] = vBoxTex[i + n].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
         }
         else if ((i%(n+1) == 0) && (i+n+1<= 6 * numvface)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n+1].x;
-            v[j + 1] = vBox[i + n+1].y;
-            v[j + 2] = vBox[i + n+1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
-            v[j] = vBox[i + 1].x;
-            v[j + 1] = vBox[i + 1].y;
-            v[j + 2] = vBox[i + 1].z;
+            v[j] = vBox[i + 1].x;           vt[j] = vBoxTex[i + 1].x;
+            v[j + 1] = vBox[i + 1].y;       vt[j + 1] = vBoxTex[i + 1].y;
+            v[j + 2] = vBox[i + 1].z;       vt[j + 2] = vBoxTex[i + 1].z;
             j += 3;
         }
         else if (((i + 1) % (n + 1) == 0) && (i+n+1<=6*numvface)) {
-            v[j] = vBox[i].x;
-            v[j + 1] = vBox[i].y;
-            v[j + 2] = vBox[i].z;
+            v[j] = vBox[i].x;               vt[j] = vBoxTex[i].x;
+            v[j + 1] = vBox[i].y;           vt[j + 1] = vBoxTex[i].y;
+            v[j + 2] = vBox[i].z;           vt[j + 2] = vBoxTex[i].z;
             j += 3;
-            v[j] = vBox[i + n].x;
-            v[j + 1] = vBox[i + n].y;
-            v[j + 2] = vBox[i + n].z;
+            v[j] = vBox[i + n].x;           vt[j] = vBoxTex[i + n].x;
+            v[j + 1] = vBox[i + n].y;       vt[j + 1] = vBoxTex[i + n].y;
+            v[j + 2] = vBox[i + n].z;       vt[j + 2] = vBoxTex[i + n].z;
             j += 3;
-            v[j] = vBox[i + n + 1].x;
-            v[j + 1] = vBox[i + n + 1].y;
-            v[j + 2] = vBox[i + n + 1].z;
+            v[j] = vBox[i + n + 1].x;       vt[j] = vBoxTex[i + n + 1].x;
+            v[j + 1] = vBox[i + n + 1].y;   vt[j + 1] = vBoxTex[i + n + 1].y;
+            v[j + 2] = vBox[i + n + 1].z;   vt[j + 2] = vBoxTex[i + n + 1].z;
             j += 3;
         }
     }

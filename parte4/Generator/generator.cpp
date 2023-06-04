@@ -9,7 +9,8 @@ void save_vertices_to_file(const char* filename, const vector<float>& vertices) 
 
     outfile << vertices.size() / 3 << '\n';
     for (size_t i = 0; i < vertices.size(); i += 3) {
-        outfile << vertices[i] << ' ' << vertices[i + 1] << ' ' << vertices[i + 2] << '\n';
+        outfile << vertices[i] << ' ' << vertices[i + 1] << ' ' << vertices[i + 2] 
+                << ' ' << verticesTex[i] << ' ' << verticesTex[i + 1] << '\n';
     }
 
     if (outfile.fail()) {
@@ -27,27 +28,27 @@ int main(int argc, char** argv) {
             vector<float> PlaneVertices;
             const int numvtPlane = (6 * 3 * 3);
             PlaneVertices.resize(numvtPlane * 3);
-            genPlane(1, 3, PlaneVertices.data());
-            save_vertices_to_file("plane_2_3.3d", PlaneVertices);
+            //genPlane(1, 3, PlaneVertices.data());
+            //save_vertices_to_file("plane_2_3.3d", PlaneVertices);
 
             vector<float> BoxVertices;
             const int numv = (48 * 3 * 3) + (12 * 3) - 24;
             BoxVertices.resize(numv * 3);
-            genBox(2, 3, BoxVertices.data());
-            save_vertices_to_file("box_2_3.3d", BoxVertices);
+            //genBox(2, 3, BoxVertices.data());
+            //save_vertices_to_file("box_2_3.3d", BoxVertices);
 
             vector<float> SphereVertices;
             const int numvt = 6 * 10 * 10;
             SphereVertices.resize(numvt * 3);
-            genSphere(1, 10, 10, SphereVertices.data());
-            save_vertices_to_file("sphere_1_10_10.3d", SphereVertices);
+            //genSphere(1, 10, 10, SphereVertices.data());
+            //save_vertices_to_file("sphere_1_10_10.3d", SphereVertices);
                 
             vector<float> ConeVertices;
             int triangulosBase = 4 + 1;
             int triangulosBody = 4 * 3 * 2;
             ConeVertices.resize((triangulosBase + triangulosBody) * 9);
-            genCone(1, 2, 4, 3, ConeVertices.data());
-            save_vertices_to_file("cone_1_2_4_3.3d", ConeVertices);
+            gerCone(1, 2, 4, 3, ConeVertices.data());
+            //save_vertices_to_file("cone_1_2_4_3.3d", ConeVertices);
 
             
 
@@ -59,6 +60,7 @@ int main(int argc, char** argv) {
         }
 
         vector<float> vertices;
+        vector<float> verticesTex;
         const string obj = argv[1];
         const char* fd = argv[argc - 1];
         const int a2 = atoi(argv[3]);
@@ -77,12 +79,14 @@ int main(int argc, char** argv) {
             const int a3 = atoi(argv[4]);
             const int numvt = 6 * a2 * a3;
             vertices.resize(numvt * 3);
-            genSphere(a1, a2, a3, vertices.data());
+            verticesTex.resize(numvt * 3);
+            genSphere(a1, a2, a3, vertices.data(), verticesTex.data());
         }
         else if (!strcmp(obj.c_str(), "box") && argc == 5) {
-            const int numv = (48 * a2 * a2) + (12 * a2) - 24;
+            const int numv = (6 * a2 * a2 * 2 * 3) + (6 * (a2 + 1)) - (6 * a2);
             vertices.resize(numv * 3);
-            genBox(a1, a2, vertices.data());
+            verticesTex.resize(numv * 3);
+            genBox(a1, a2, vertices.data(), verticesTex.data());
         }
         else if (!strcmp(obj.c_str(), "cone") && argc == 7) {
             const int a3 = atoi(argv[4]);
@@ -90,19 +94,20 @@ int main(int argc, char** argv) {
             int triangulosBase = a3 + 1;
             int triangulosBody = a3 * a4 * 2;
             vertices.resize((triangulosBase + triangulosBody) * 9);
-            genCone(a1, a2, a3, a4, vertices.data());
+            gerCone(a1, a2, a3, a4, vertices.data());
         }
         else if (!strcmp(obj.c_str(), "plane") && argc == 5) {
             const int numvt = (6 * a2 * a2);
             vertices.resize(numvt * 3);
-            genPlane(a1, a2, vertices.data());
+            verticesTex.resize(numvt * 3);
+            genPlane(a1, a2, vertices.data(), verticesTex.data());
         }
         else if (!strcmp(obj.c_str(), "patch") && argc == 5) {}
         else {
             throw invalid_argument("Invalid object or corresponding parameters.");
         }
 
-        save_vertices_to_file(fd, vertices);
+        save_vertices_to_file(fd, vertices, verticesTex);
     }
     catch (const invalid_argument& e) {
         cerr << "Error: " << e.what() << endl;
