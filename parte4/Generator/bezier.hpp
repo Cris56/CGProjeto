@@ -8,9 +8,10 @@
 #include <vector>
 #include <sstream>
 #include "geometry.hpp"
+#include "textures.hpp"
 using namespace std;
 
-void genBezier(float* v);
+void genBezier(float* v, float* vt);
 void verticesBezier();
 void readPatch(const char* filename);
 int numvtBezier(int tess);

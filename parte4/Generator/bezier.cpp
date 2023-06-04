@@ -1,6 +1,7 @@
 #include "bezier.hpp"
 
 vector<Point> vBezier;
+vector<Point> vBezierTex;
 
 struct bezier {
 	int numpatches = 1;
@@ -13,9 +14,11 @@ struct bezier {
 
 bezier b;
 
-void genBezier(float* v) {
+void genBezier(float* v, float* vt) {
 	vBezier.resize(b.numv * b.numpatches);
 	verticesBezier();
+	vBezierTex.resize(b.numv * b.numpatches);
+	genTexBezier(b.tess, b.numpatches, vBezierTex.data());
 	int j = 0;
 	int i = 0;
 	int n = b.tess;
@@ -23,29 +26,29 @@ void genBezier(float* v) {
 		for (i = 0; i < b.numv - (n + 1); i++) {
 			int indexvB = b.numv * (p-1);
 			if ((i + 1) % (n + 1) != 0) {
-				v[j] = vBezier[indexvB + i].x;
-				v[j + 1] = vBezier[indexvB + i].y;
-				v[j + 2] = vBezier[indexvB + i].z;
+				v[j] = vBezier[indexvB + i].x;				vt[j] = vBezierTex[indexvB + i].x;
+				v[j + 1] = vBezier[indexvB + i].y;			vt[j + 1] = vBezier[indexvB + i].y;
+				v[j + 2] = vBezier[indexvB + i].z;			vt[j + 2] = vBezierTex[indexvB + i].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i + 1].x;
-				v[j + 1] = vBezier[indexvB + i + 1].y;
-				v[j + 2] = vBezier[indexvB + i + 1].z;
+				v[j] = vBezier[indexvB + i + 1].x;			vt[j] = vBezierTex[indexvB + i + 1].x;
+				v[j + 1] = vBezier[indexvB + i + 1].y;		vt[j + 1] = vBezierTex[indexvB + i + 1].y;
+				v[j + 2] = vBezier[indexvB + i + 1].z;		vt[j + 2] = vBezierTex[indexvB + i + 1].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i + n + 2].x;
-				v[j + 1] = vBezier[indexvB + i + n + 2].y;
-				v[j + 2] = vBezier[indexvB + i + n + 2].z;
+				v[j] = vBezier[indexvB + i + n + 2].x;		vt[j] = vBezierTex[indexvB + i + n + 2].x;
+				v[j + 1] = vBezier[indexvB + i + n + 2].y;	vt[j + 1] = vBezierTex[indexvB + i + n + 2].y;
+				v[j + 2] = vBezier[indexvB + i + n + 2].z;	vt[j + 2] = vBezierTex[indexvB + i + n + 2].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i].x;
-				v[j + 1] = vBezier[indexvB + i].y;
-				v[j + 2] = vBezier[indexvB + i].z;
+				v[j] = vBezier[indexvB + i].x;				vt[j] = vBezierTex[indexvB + i].x;
+				v[j + 1] = vBezier[indexvB + i].y;			vt[j + 1] = vBezier[indexvB + i].y;
+				v[j + 2] = vBezier[indexvB + i].z;			vt[j + 2] = vBezierTex[indexvB + i].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i + n + 2].x;
-				v[j + 1] = vBezier[indexvB + i + n + 2].y;
-				v[j + 2] = vBezier[indexvB + i + n + 2].z;
+				v[j] = vBezier[indexvB + i + n + 2].x;		vt[j] = vBezierTex[indexvB + i + n + 2].x;
+				v[j + 1] = vBezier[indexvB + i + n + 2].y;	vt[j + 1] = vBezierTex[indexvB + i + n + 2].y;
+				v[j + 2] = vBezier[indexvB + i + n + 2].z;	vt[j + 2] = vBezierTex[indexvB + i + n + 2].z;
 				j += 3;
-				v[j] = vBezier[indexvB + i + n + 1].x;
-				v[j + 1] = vBezier[indexvB + i + n + 1].y;
-				v[j + 2] = vBezier[indexvB + i + n + 1].z;
+				v[j] = vBezier[indexvB + i + n + 1].x;		vt[j] = vBezierTex[indexvB + i + n + 1].x;
+				v[j + 1] = vBezier[indexvB + i + n + 1].y;	vt[j + 1] = vBezierTex[indexvB + i + n + 1].y;
+				v[j + 2] = vBezier[indexvB + i + n + 1].z;	vt[j + 2] = vBezierTex[indexvB + i + n + 1].z;
 				j += 3;
 			}
 		}
