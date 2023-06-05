@@ -3,6 +3,7 @@
 
 CMakeFiles/engine.dir/src/Curva_CATMR_H.cpp.o
  ../include/Curva_CATMR_H.hpp
+ ../include/point.hpp
  /home/diogo/Desktop/Programming/CG/TP/Fase3/Engine/src/Curva_CATMR_H.cpp
 CMakeFiles/engine.dir/src/camera.cpp.o
  ../include/camera.hpp

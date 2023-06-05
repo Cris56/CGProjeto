@@ -7,6 +7,18 @@
 #IncludeRegexTransform: 
 
 ../include/Curva_CATMR_H.hpp
+point.hpp
+../include/point.hpp
+vector
+-
+cmath
+-
+stdio.h
+-
+GL/glew.h
+-
+cstring
+-
 
 ../include/point.hpp
 iostream

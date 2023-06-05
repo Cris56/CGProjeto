@@ -104,7 +104,8 @@ void renderGroups(const Group& group) {
 			//for (int i = 0; i < transformPoints.size(); i++) {
 			//	std::cout << "Point " << i << ": " << transformPoints[i].getX() << " " << transformPoints[i].getY() << " " << transformPoints[i].getZ() << std::endl;
 			//}
-			transform.drawTranslation(transformPoints, transform.getTime());
+			transform.drawTranslation(transformPoints, transform.getTime(), transform.getIsAligned());
+			
 		}
 		else if (type == ROTATION) {
 			//printf("entrou Rotate\n");

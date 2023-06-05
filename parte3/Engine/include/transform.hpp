@@ -25,8 +25,7 @@ public:
     bool getIsAligned() const;
     std::vector<Point> getTranslationPoints() const;
     std::vector<TransformType> getTransformationOrder() const;
-    void getCurvePoint(std::vector<Point> c, float tt, float* pos, float* deriv) const;
-    void drawTranslation(const std::vector<Point>& t, float timestp) const;
+    void drawTranslation(const std::vector<Point>& t, float timestp, bool align) const;
     void setTranslation(float x, float y, float z);
     void setRotation(float time, float x, float y, float z);
     void setScale(float x, float y, float z);
